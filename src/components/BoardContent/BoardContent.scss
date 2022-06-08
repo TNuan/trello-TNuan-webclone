@@ -1,7 +1,5 @@
 @import '_setting.scss';
 
-
-
 .board-content {
     height: $board-content-height;
     display: flex;
@@ -23,5 +21,22 @@
       background-color: rgba(150, 150, 200, 0.1);
       border: 1px dashed #abc;
       margin: 5px 45px 5px 5px;
+    }
+
+    .add-new-column {
+      height: 32px;
+      width: 250px;
+      line-height: 32px;
+      padding: 4px 0 4px 15px;
+      cursor: pointer;
+      color: rgb(201, 128, 163);
+      margin-left: $gap;
+      font-size: 15px;
+      background-color: hsla(0, 0%, 100%, .24);
+      border-radius: $column-border-radius;
+      &:hover {
+        color: rgb(180, 88, 132);
+        background-color: hsla(0, 0%, 100%, .44); 
+      }
     }
   }
