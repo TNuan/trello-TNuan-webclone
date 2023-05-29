@@ -2,12 +2,13 @@ import axios from 'axios'
 import { API_ROOT } from 'utillities/constants'
 
 export const register = async (data) => {
-  const request = await axios.request(`${API_ROOT}/v1/register`, data)
+  console.log(data)
+  const request = await axios.post(`${API_ROOT}/v1/users/register`, data)
   return request.data
 }
 
 export const login = async (data) => {
-  const request = await axios.request(`${API_ROOT}/v1/login`, data)
+  const request = await axios.post(`${API_ROOT}/v1/users/login`, data)
   return request.data
 }
 
