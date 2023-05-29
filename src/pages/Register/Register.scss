@@ -8,13 +8,14 @@
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #0C5776;
+  background-color: #ad92df6f;
   .brand {
     display: flex;
     align-items: center;
     gap: 1rem;
     justify-content: center;
     img {
+      color: #e4b4e4;
       height: 5rem;
     }
     h1 {
@@ -26,24 +27,24 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #001C44;
+    background-color: #402a44c6;
     border-radius: 2rem;
     padding: 3rem 5rem;
     input { 
       background-color: transparent;
       padding: 1rem;
-      border: 0.1rem solid #2D99AE;
+      border: 0.1rem solid $input-border-color;
       border-radius: 0.4rem;
       color: white;
       width: 100%;
       font-size: 1 rem;
       &:focus {
-        border: 0.1rem solid #2D99AE;
+        border: 0.1rem solid #a888bc;
         outline: none;
       }
     }
     button {
-      background-image: linear-gradient(to right, #0C5776, #2D99AE);
+      background-image: linear-gradient(to right, #a888bc, #b595a7);
       color: white;
       padding: 1rem 2rem;
       border: none;
@@ -54,18 +55,18 @@
       text-transform: uppercase;
       transition: 0.5s ease-in-out;
       &:hover {
-        background-image: linear-gradient(to left, #0C5776, #2D99AE);
+        background-image: linear-gradient(to left, #a888bc, #b595a7);
       }
     }
     span {
       color: white;
       text-transform: uppercase;
       a {
-        color: #2D99AE;
+        color: #b595a7;
         text-decoration: none;
         font-weight: bold;
         &:hover {
-          color: #0C5776;
+          color: #a888bc;
         }
       }
     }

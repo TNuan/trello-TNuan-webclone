@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { register } from 'actions/ApiCall/index'
 import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Logo from '../../assets/logo.svg'
 
 import './Register.scss'
@@ -12,7 +13,7 @@ function Register() {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    repeat_password: ''
   })
 
   const toastOptions = {
@@ -32,20 +33,21 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (handleValidation()) {
-      const { data } = register(values)
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions)
-      }
-      if (data.status === true) {
-        localStorage.setItem('chat-app-user', JSON.stringify(data.user))
-        navigate('/')
-      }
+      register(values).then(data => {
+        if (data.status === false) {
+          toast.error(data.msg, toastOptions)
+        }
+        if (data.status === true) {
+          localStorage.setItem('chat-app-user', JSON.stringify(data.user))
+          navigate('/')
+        }
+      })
     }
   }
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = values
-    if (password !== confirmPassword) {
+    const { username, email, password, repeat_password } = values
+    if (password !== repeat_password) {
       toast.error(
         'password and confirm password should be same! ',
         toastOptions
@@ -53,13 +55,13 @@ function Register() {
       return false
     } else if (username.length < 3) {
       toast.error(
-        'Username should be greater than 3 characters', 
+        'Username should be greater than 3 characters',
         toastOptions
       )
       return false
     } else if (password.length < 8) {
       toast.error(
-        'Password should be greater than 8 characters', 
+        'Password should be greater than 8 characters',
         toastOptions
       )
       return false
@@ -100,11 +102,11 @@ function Register() {
           <input
             type="password"
             placeholder="Confirm Password"
-            name="confirmPassword" onChange={(event) => handleChange(event)}
+            name="repeat_password" onChange={(event) => handleChange(event)}
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login</Link>
+            Already have an account ? <Link to="/">Login</Link>
           </span>
         </form>
       </div>
