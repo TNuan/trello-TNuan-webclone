@@ -4,6 +4,9 @@
 
 export const applyDrag = (arr, dragResult) => {
   const { removedIndex, addedIndex, payload } = dragResult
+  console.log('removedIndex is :', removedIndex)
+  console.log('addedIndex is :', addedIndex)
+  console.log('payload is :', payload)
   if (removedIndex === null && addedIndex === null) return arr
 
   const result = [...arr]
@@ -16,6 +19,8 @@ export const applyDrag = (arr, dragResult) => {
   if (addedIndex !== null) {
     result.splice(addedIndex, 0, itemToAdd)
   }
+
+  console.log('result is : ', result)
 
   return result
 }

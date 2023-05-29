@@ -1,0 +1,73 @@
+@import '_setting.scss';
+
+.register-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  background-color: #0C5776;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    img {
+      height: 5rem;
+    }
+    h1 {
+      color: white;
+      text-transform: uppercase;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #001C44;
+    border-radius: 2rem;
+    padding: 3rem 5rem;
+    input { 
+      background-color: transparent;
+      padding: 1rem;
+      border: 0.1rem solid #2D99AE;
+      border-radius: 0.4rem;
+      color: white;
+      width: 100%;
+      font-size: 1 rem;
+      &:focus {
+        border: 0.1rem solid #2D99AE;
+        outline: none;
+      }
+    }
+    button {
+      background-image: linear-gradient(to right, #0C5776, #2D99AE);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      transition: 0.5s ease-in-out;
+      &:hover {
+        background-image: linear-gradient(to left, #0C5776, #2D99AE);
+      }
+    }
+    span {
+      color: white;
+      text-transform: uppercase;
+      a {
+        color: #2D99AE;
+        text-decoration: none;
+        font-weight: bold;
+        &:hover {
+          color: #0C5776;
+        }
+      }
+    }
+  }
+}

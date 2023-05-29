@@ -10,6 +10,7 @@ import { mapOrder } from 'utillities/sort'
 import { MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
 import { createNewCard, updateColumn } from 'actions/ApiCall/index'
+import { updateCard } from 'actions/ApiCall/index'
 
 
 function Column(props) {
@@ -44,10 +45,21 @@ function Column(props) {
   // Remove Column
   const onConfirmModalAction = (type) => {
     if (type === MODAL_ACTION_CONFIRM) {
+      // Remove Card on Column
+      cards.forEach(card => {
+        const newCard = {
+          ...card,
+          _destroy: true
+        }
+        // Call APIs update card
+        updateCard(card._id, newCard)
+      })
+
       const newColumn = {
         ...column,
         _destroy: true
       }
+
       // Call APIs update column
       updateColumn(newColumn._id, newColumn).then(updatedColumn => {
         onUpdateColumnState(updatedColumn)
@@ -128,13 +140,13 @@ function Column(props) {
       </header>
       <div className="card-list">
         <Container
-          // onDragStart={e => console.log("drag started", e)}
-          // onDragEnd={e => console.log("drag end", e)}
+          // onDragStart={e => console.log('drag started', e)}
+          // onDragEnd={e => console.log('drag end', e)}
           // onDragEnter={() => {
-          //   console.log("drag enter:", column._id);
+          //   console.log('drag enter:', column._id)
           // }}
           // onDragLeave={() => {
-          //   console.log("drag leave:", column._id);
+          //   console.log('drag leave:', column._id)
           // }}
           // onDropReady={p => console.log('Drop ready: ', p)}
           orientation="vertical"
