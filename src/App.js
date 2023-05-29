@@ -1,19 +1,19 @@
 import React from 'react'
-import './App.scss'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Register from './pages/Register/Register'
+// import Login from './pages/Login'
+// import SetAvatar from './pages/SetAvatar'
+import Home from 'pages/Home/Home'
 
-// custom components
-import AppBar from 'components/AppBar/AppBar'
-import BoardBar from 'components/BoardBar/BoardBar'
-import BoardContent from 'components/BoardContent/BoardContent'
-
-function App() {
+export default function App() {
   return (
-    <div className="trello-container">
-      <AppBar />
-      <BoardBar />
-      <BoardContent />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/register' element={<Register />} />
+        {/* <Route path='/login' element={<Login/>} /> */}
+        {/* <Route path='/setAvatar' element={<SetAvatar />} /> */}
+        <Route path='/' element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App

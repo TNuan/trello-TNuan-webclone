@@ -4,7 +4,7 @@ import './BoardBar.scss'
 
 function BoardBar() {
   return (
-    <nav className="navbar-board">App bar</nav>
+    <nav className="navbar-board">Board bar</nav>
   )
 }
 
