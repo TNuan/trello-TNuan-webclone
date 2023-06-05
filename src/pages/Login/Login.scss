@@ -1,6 +1,6 @@
 @import '_setting.scss';
 
-.register-container {
+.login-container {
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -23,9 +23,8 @@
     }
   }
   form {
-    min-width: 450px;
-    max-height: fit-content;
     display: flex;
+    min-width: 450px;
     flex-direction: column;
     gap: 1.5rem;
     background-color: $form-bg-color;

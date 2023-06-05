@@ -2,13 +2,22 @@ import axios from 'axios'
 import { API_ROOT } from 'utillities/constants'
 
 export const register = async (data) => {
-  console.log(data)
   const request = await axios.post(`${API_ROOT}/v1/users/register`, data)
   return request.data
 }
 
 export const login = async (data) => {
   const request = await axios.post(`${API_ROOT}/v1/users/login`, data)
+  return request.data
+}
+
+export const loginWithGoogle = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/users/auth/google`, data)
+  return request.data
+}
+
+export const loginWithFaceBook = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/users/auth/facebook`, data)
   return request.data
 }
 
