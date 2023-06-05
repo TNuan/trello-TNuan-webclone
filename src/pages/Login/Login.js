@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from 'actions/ApiCall/index'
+import { login, loginWithGoogle, loginWithFaceBook } from 'actions/ApiCall/index'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Logo from '../../assets/logo.svg'
+import { GOOGLE_CLIENT_ID, FACEBOOK_CLIENT_ID } from 'utillities/constants'
+import { GoogleLogin } from 'react-google-login'
+import FacebookLogin from 'react-facebook-login'
 
 import './Login.scss'
 
@@ -13,6 +16,8 @@ function Login() {
     username: '',
     password: ''
   })
+
+  const [accessToken, secretAccessToken] = useState('')
 
   const toastOptions = {
     position: 'bottom-right',
@@ -40,6 +45,20 @@ function Login() {
           navigate('/')
         }
       })
+    }
+  }
+
+  const loginFacebook = async (response) => {
+    console.log(response)
+    loginWithFaceBook({ access_token: response })
+  }
+
+  const loginGoogle = async (response) => {
+    console.log('hwllo')
+    console.log(response)
+    if (response.accessToken) {
+      console.log(response.accessToken)
+      loginWithGoogle({ access_token: response.accessToken })
     }
   }
 
@@ -84,6 +103,19 @@ function Login() {
             You don&apost have an account ? <Link to="/register">Register</Link>
           </span>
         </form>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText='Login'
+          onSuccess={loginGoogle}
+          onFailure={console.log('Login failed')}
+          cookiePolicy={'single_host_origin'}
+          responseType='code,token'
+        />
+        <FacebookLogin
+          appId={FACEBOOK_CLIENT_ID}
+          fields="name,email,picture"
+          callback={loginFacebook}
+        />
       </div>
       <ToastContainer />
     </>

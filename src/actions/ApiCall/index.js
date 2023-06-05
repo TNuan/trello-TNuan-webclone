@@ -11,6 +11,16 @@ export const login = async (data) => {
   return request.data
 }
 
+export const loginWithGoogle = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/users/auth/google`, data)
+  return request.data
+}
+
+export const loginWithFaceBook = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/users/auth/facebook`, data)
+  return request.data
+}
+
 export const updateBoard = async (id, data) => {
   const request = await axios.put(`${API_ROOT}/v1/boards/${id}`, data)
   return request.data
