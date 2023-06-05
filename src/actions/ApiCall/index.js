@@ -2,7 +2,6 @@ import axios from 'axios'
 import { API_ROOT } from 'utillities/constants'
 
 export const register = async (data) => {
-  console.log(data)
   const request = await axios.post(`${API_ROOT}/v1/users/register`, data)
   return request.data
 }

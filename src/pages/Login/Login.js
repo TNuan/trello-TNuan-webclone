@@ -70,7 +70,7 @@ function Login() {
           <input
             type="text"
             placeholder="Username"
-            name="username" 
+            name="username"
             onChange={(event) => handleChange(event)}
             min="3"
           />
