@@ -21,6 +21,17 @@ export const loginWithFaceBook = async (data) => {
   return request.data
 }
 
+export const getDashBoardUser = async (id) => {
+  const request = await axios.get(`${API_ROOT}/v1/users/${id}/getDashBoard`)
+  return request.data
+}
+
+export const createNewBoard = async (data) => {
+  console.log(data)
+  const request = await axios.post(`${API_ROOT}/v1/boards`, data)
+  return request.data
+}
+
 export const updateBoard = async (id, data) => {
   const request = await axios.put(`${API_ROOT}/v1/boards/${id}`, data)
   return request.data

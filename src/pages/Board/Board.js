@@ -1,21 +1,19 @@
 import React from 'react'
-import './Home.scss'
+import './Board.scss'
 
 // custom components
-import HomeBar from 'components/HomeBar/HomeBar'
 import BoardBar from 'components/BoardBar/BoardBar'
-import DashBoard from 'components/DashBoard/DashBoard'
+import HomeBar from 'components/BoardBar/HomeBar'
 import BoardContent from 'components/BoardContent/BoardContent'
 
-function Home() {
+function Board() {
   return (
     <div className="trello-container">
       <HomeBar />
       <BoardBar />
-      {/* <BoardContent /> */}
-      <DashBoard />
+      <BoardContent />
     </div>
   )
 }
 
-export default Home
+export default Board
