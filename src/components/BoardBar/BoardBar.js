@@ -1,10 +1,23 @@
 import React from 'react'
+import { Navbar, Container } from 'react-bootstrap'
 
 import './BoardBar.scss'
 
 function BoardBar() {
   return (
-    <nav className="navbar-board">Board bar</nav>
+    <nav className="navbar-board">
+      {/* <Navbar>
+        <Container>
+          <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              Signed in as: <a href="#login">Mark Otto</a>
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar> */}
+    </nav>
   )
 }
 

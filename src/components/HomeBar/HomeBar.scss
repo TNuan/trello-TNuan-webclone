@@ -3,11 +3,15 @@
 $appbar-bg-color: #8F89B7;
 
 
-.navbar-app {
+.navbar-home {
     height: $navbar-app-height;
     padding-left: $gap;
     display: flex;
     align-items: center;
     background-color: $appbar-bg-color;
     font-size: 1.5rem;
+
+    .input-text {
+        width: 50%;
+    }
 }
