@@ -4,6 +4,7 @@ import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
 // import SetAvatar from './pages/SetAvatar'
 import Home from 'pages/Home/Home'
+import Board from 'pages/Board/Board'
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
       <Routes>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login/>} />
-        {/* <Route path='/setAvatar' element={<SetAvatar />} /> */}
+        <Route path='/view' element={<Board />} />
         <Route path='/' element={<Home />} />
       </Routes>
     </BrowserRouter>

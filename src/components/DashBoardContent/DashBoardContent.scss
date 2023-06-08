@@ -1,0 +1,48 @@
+@import '_setting.scss';
+
+.dashboard {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .dashboard-container {
+    height: $board-content-height;
+    width: 100%;
+    margin: $gap;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &:after {
+      content: '';
+      flex: 0 0 $gap;
+    }
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $common-element-bg-color;
+      border-radius: 8px;
+    }
+
+    button {
+      background-image: $button-bg;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      transition: 0.5s ease-in-out;
+
+      &:hover {
+        background-image: $button-bg-hover;
+      }
+    }
+  }
+}

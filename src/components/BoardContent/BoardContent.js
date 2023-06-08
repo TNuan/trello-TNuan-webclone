@@ -9,9 +9,12 @@ import { mapOrder } from 'utillities/sort'
 import { applyDrag } from 'utillities/dragDrop'
 import { fetchBoardDetails, createNewColumn, updateBoard, updateColumn, updateCard } from 'actions/ApiCall/index'
 
-function BoardContent() {
+function BoardContent(props) {
+  const { boardId } = props
   const [board, setBoard] = useState({})
   const [columns, setColumn] = useState([])
+  const [isLoaded, setIsLoaded] = useState(false)
+
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
@@ -20,11 +23,10 @@ function BoardContent() {
   const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value)
 
   useEffect(() => {
-    const boardId = '62aa59811425dce889a34c12'
-
     fetchBoardDetails(boardId).then(board => {
       setBoard(board)
       setColumn(mapOrder(board.columns, board.columnOrder, '_id'))
+      setIsLoaded(true)
     })
   }, [])
 
@@ -34,10 +36,6 @@ function BoardContent() {
       newColumnInputRef.current.select()
     }
   }, [openNewColumnForm])
-
-  if (isEmpty(board)) {
-    return ( <div className="not-found">Board not found</div> )
-  }
 
   const onColumnDrop = (dropResult) => {
     let newColumns = cloneDeep(columns)
@@ -141,60 +139,60 @@ function BoardContent() {
 
   return (
     <div className="board-content">
-      <Container
-        orientation="horizontal"
-        onDrop={onColumnDrop}
-        getChildPayload={index => columns[index]}
-        dragHandleSelector=".column-drag-handle"
-        dropPlaceholder={{
-          animationDuration: 150,
-          showOnTop: true,
-          className: 'column-drop-preview'
-        }}
-      >
-        {columns.map((column, index) => (
-          <Draggable key={index}>
-            <Column
-              column={column}
-              onCardDrop={onCardDrop}
-              onUpdateColumnState={onUpdateColumnState}
-            />
-          </Draggable>
-        ))}
-      </Container>
+      {isLoaded && (
+        <>
+          <Container
+            orientation="horizontal"
+            onDrop={onColumnDrop}
+            getChildPayload={index => columns[index]}
+            dragHandleSelector=".column-drag-handle"
+            dropPlaceholder={{
+              animationDuration: 150,
+              showOnTop: true,
+              className: 'column-drop-preview'
+            }}
+          >
+            {columns.map((column, index) => (
+              <Draggable key={index}>
+                <Column
+                  column={column}
+                  onCardDrop={onCardDrop}
+                  onUpdateColumnState={onUpdateColumnState} />
+              </Draggable>
+            ))}
+          </Container>
+          <BootstrapContainer className="board-content-container">
 
-      <BootstrapContainer className="board-content-container">
+            {!openNewColumnForm &&
+              <Row>
+                <Col className="add-new-column" onClick={toggleOpenNewColumnForm}>
+                  <i className="fa fa-plus icon" /> Add new column
+                </Col>
+              </Row>}
 
-        {!openNewColumnForm &&
-          <Row>
-            <Col className="add-new-column" onClick={toggleOpenNewColumnForm}>
-              <i className="fa fa-plus icon" /> Add new column
-            </Col>
-          </Row>
-        }
+            {openNewColumnForm &&
+              <Row>
+                <Col className="enter-new-column">
+                  <Form.Control
+                    size="sm" type="text" placeholder="Enter column title..."
+                    className="input-enter-new-column"
+                    ref={newColumnInputRef}
+                    value={newColumnTitle}
+                    onChange={onNewColumnTitleChange}
+                    onKeyDown={event => (event.key === 'Enter') && addNewColumn()} />
+                  <Button variant="success" size="sm" onClick={addNewColumn}>
+                    Add column
+                  </Button>
+                  <span className="cancel-icon" onClick={toggleOpenNewColumnForm}>
+                    <i className="fa fa-trash icon" />
+                  </span>
+                </Col>
+              </Row>}
 
-        {openNewColumnForm &&
-          <Row>
-            <Col className="enter-new-column">
-              <Form.Control
-                size="sm" type="text" placeholder="Enter column title..."
-                className="input-enter-new-column"
-                ref={newColumnInputRef}
-                value={newColumnTitle}
-                onChange={onNewColumnTitleChange}
-                onKeyDown={event => (event.key === 'Enter') && addNewColumn()}
-              />
-              <Button variant="success" size="sm" onClick={addNewColumn}>
-                Add column
-              </Button>
-              <span className="cancel-icon" onClick={toggleOpenNewColumnForm}>
-                <i className="fa fa-trash icon"/>
-              </span>
-            </Col>
-          </Row>
-        }
-
-      </BootstrapContainer>
+          </BootstrapContainer>
+        </>
+      )
+      }
     </div>
   )
 }
