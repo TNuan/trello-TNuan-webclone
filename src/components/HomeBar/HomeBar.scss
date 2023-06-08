@@ -1,17 +1,30 @@
 @import '_setting.scss';
 
-$appbar-bg-color: #8F89B7;
+$appbar-bg-color: #8d81df;
 
 
 .navbar-home {
-    height: $navbar-app-height;
+
     padding-left: $gap;
-    display: flex;
     align-items: center;
     background-color: $appbar-bg-color;
-    font-size: 1.5rem;
+    font-size: 1rem;
 
-    .input-text {
-        width: 50%;
+    button {
+        background-image: $button-bg;
+        max-width: 300px;
+        color: white;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        cursor: pointer;
+        border-radius: 0.4rem;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: 0.5s ease-in-out;
+
+        &:hover {
+            background-image: $button-bg-hover;
+        }
     }
+
 }

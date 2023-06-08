@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Container, Navbar, Row, Nav, NavDropdown, Button, Modal, InputGroup, Form, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Container, Navbar, Row, Nav, NavDropdown, Button, Modal, InputGroup, Form } from 'react-bootstrap'
 import './HomeBar.scss'
 
 import { createNewBoard } from 'actions/ApiCall'
@@ -31,8 +31,8 @@ function HomeBar() {
   }
 
   return (
-    <nav className="navbar-Home">
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <nav className="navbar-home">
+      <Navbar collapseOnSelect expand="lg" className='navbar'>
         <Container>
           <Navbar.Brand href="/">Trello</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Container as BootstrapContainer, Row, Col, Form, Button, Card, Modal } from 'react-bootstrap'
-import { isEmpty, cloneDeep } from 'lodash'
+import { Container as BootstrapContainer, Row, Button, Card } from 'react-bootstrap'
 
-import './DashBoard.scss'
+import './DashBoardContent.scss'
 import { getDashBoardUser } from 'actions/ApiCall'
 
-function DashBoard() {
+function DashBoardContent() {
   const navigate = useNavigate()
   const [boards, setBoards] = useState([])
   const [currentUser, setCurrentUser] = useState({})
@@ -30,6 +29,15 @@ function DashBoard() {
       .catch(console.error)
   }, [])
 
+  const showBoard = (boardId) => {
+    if (boardId) {
+      navigate('/view', {
+        state: {
+          boardId: boardId
+        }
+      })
+    }
+  }
 
   return (
     <div className="dashboard">
@@ -42,7 +50,7 @@ function DashBoard() {
                 <Card.Body>
                   <Card.Title>{board.title}</Card.Title>
                   <Card.Text>{board.title}</Card.Text>
-                  <Button variant="primary">View</Button>
+                  <Button onClick={() => showBoard(board._id)}>View</Button>
                 </Card.Body>
               </Card>
             </div>
@@ -53,4 +61,4 @@ function DashBoard() {
   )
 }
 
-export default DashBoard
+export default DashBoardContent
