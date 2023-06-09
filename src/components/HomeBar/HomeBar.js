@@ -4,7 +4,8 @@ import './HomeBar.scss'
 
 import { createNewBoard } from 'actions/ApiCall'
 
-function HomeBar() {
+function HomeBar(props) {
+  const { currentUser } = props
   const [modalShow, setModalShow] = useState(false)
   const [visibility, setVisibility] = useState('Workspace')
   const [newBoardTitle, setNewBoardTitle] = useState('')
@@ -54,7 +55,7 @@ function HomeBar() {
             </Nav>
             <Nav>
               <Button onClick={() => setModalShow(true)}>Create</Button>
-              <Nav.Link href="#deets">User name</Nav.Link>
+              <Nav.Link href="#deets">{currentUser.username}</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

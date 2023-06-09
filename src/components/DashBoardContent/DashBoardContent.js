@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Container as BootstrapContainer, Row, Button, Card } from 'react-bootstrap'
 
 import './DashBoardContent.scss'
 import { getDashBoardUser } from 'actions/ApiCall'
 
-function DashBoardContent() {
+function DashBoardContent(props) {
   const navigate = useNavigate()
+  const { currentUser } = props
   const [boards, setBoards] = useState([])
-  const [currentUser, setCurrentUser] = useState({})
+  // const [currentUser, setCurrentUser] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
 
 
   useEffect(() => {
     (async () => {
-      if (!localStorage.getItem('trello-user')) {
-        navigate('/login')
-      } else {
-        const data = JSON.parse(localStorage.getItem('trello-user'))
-        setCurrentUser(data)
-        getDashBoardUser(data._id).then(boards => {
+      if (currentUser) {
+        getDashBoardUser(currentUser._id).then(boards => {
           setBoards(boards)
         })
         setIsLoaded(true)
@@ -31,7 +28,7 @@ function DashBoardContent() {
 
   const showBoard = (boardId) => {
     if (boardId) {
-      navigate('/view', {
+      navigate('/views', {
         state: {
           boardId: boardId
         }
@@ -50,7 +47,9 @@ function DashBoardContent() {
                 <Card.Body>
                   <Card.Title>{board.title}</Card.Title>
                   <Card.Text>{board.title}</Card.Text>
-                  <Button onClick={() => showBoard(board._id)}>View</Button>
+                  <Button onClick={() => showBoard(board._id)}>
+                    view
+                  </Button>
                 </Card.Body>
               </Card>
             </div>

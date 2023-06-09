@@ -3,7 +3,7 @@
 .board-content {
     height: $board-content-height;
     display: flex;
-    margin: 0 $gap $gap;
+    margin: $gap;
     overflow-x: auto;
     overflow-y: hidden;
     &:after {
