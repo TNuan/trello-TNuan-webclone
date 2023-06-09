@@ -8,9 +8,12 @@ import Column from 'components/Column/Column'
 import { mapOrder } from 'utillities/sort'
 import { applyDrag } from 'utillities/dragDrop'
 import { fetchBoardDetails, createNewColumn, updateBoard, updateColumn, updateCard } from 'actions/ApiCall/index'
+import { useParams, useLocation } from 'react-router-dom'
 
-function BoardContent(props) {
-  const { boardId } = props
+function BoardContent() {
+  const location = useLocation()
+  const boardId = location.state.boardId
+  // console.log(boardId)
   const [board, setBoard] = useState({})
   const [columns, setColumn] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)

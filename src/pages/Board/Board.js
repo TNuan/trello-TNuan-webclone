@@ -11,7 +11,6 @@ function Board() {
   const location = useLocation()
   return (
     <div className="trello-container">
-      <HomeBar />
       <BoardBar />
       <BoardContent boardId={location.state.boardId}/>
     </div>

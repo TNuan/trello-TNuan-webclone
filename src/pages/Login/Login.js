@@ -108,7 +108,7 @@ function Login() {
           buttonText='Login'
           onSuccess={loginGoogle}
           onFailure={console.log('Login failed')}
-          cookiePolicy={'single_host_origin'}
+          // cookiePolicy={'single_host_origin'}
           responseType='code,token'
         />
         <FacebookLogin
