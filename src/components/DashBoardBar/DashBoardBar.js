@@ -5,10 +5,12 @@ import {
   CDBBadge,
   CDBSidebarHeader,
   CDBSidebarMenu,
-  CDBSidebarMenuItem
+  CDBSidebarMenuItem,
+  CDBIcon
 } from 'cdbreact'
 
 import { NavLink } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 function DashBoardBar(props) {
   return (
@@ -30,15 +32,16 @@ function DashBoardBar(props) {
               <CDBSidebarMenuItem icon="columns"
                 suffix={
                   <CDBBadge color="danger" borderType="pill">
-                    pro
+                    7
                   </CDBBadge>
                 }
-              >Dashboard</CDBSidebarMenuItem>
+              >Boards
+              </CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact="true" to="/tables">
               <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact="true" to="/profile">
+            <NavLink exact="true" to="/members">
               <CDBSidebarMenuItem icon="users">Members</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact="true" to="/analytics">
