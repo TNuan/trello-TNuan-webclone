@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Container as BootstrapContainer, Row, Button, Card } from 'react-bootstrap'
+import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
 
 import './DashBoardContent.scss'
 import { getDashBoardUser } from 'actions/ApiCall'
@@ -38,6 +39,7 @@ function DashBoardContent(props) {
 
   return (
     <div className="dashboard">
+      <DashBoardBar/>
       <BootstrapContainer className='dashboard-container'>
         <Row>
           {boards.map((board, index) => (

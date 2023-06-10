@@ -2,14 +2,16 @@
 
 .dashboard {
   width: 100%;
+  height: 100%;
+  // height: fit-content;
   display: flex;
-  justify-content: center;
+  
   .dashboard-container {
-    height: $board-content-height;
+    justify-content: center;
     width: 100%;
     margin: $gap;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     &:after {
       content: '';
@@ -20,7 +22,7 @@
       -webkit-appearance: none;
     }
 
-    &::-webkit-scrollbar:horizontal {
+    &::-webkit-scrollbar:vertical {
       width: 10px;
     }
 
