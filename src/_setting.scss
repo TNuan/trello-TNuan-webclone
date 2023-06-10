@@ -2,8 +2,9 @@
 
 $gap: 10px;
 
-$navbar-app-height: 5vh;
+$navbar-app-height: 10vh;
 $navbar-board-height: 6vh;
+$sidebar-dashboard: 100vh - $navbar-app-height;
 $board-content-height: 88vh;
 
 $column-border-radius: 6px;

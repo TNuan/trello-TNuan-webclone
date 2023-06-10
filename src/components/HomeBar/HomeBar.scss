@@ -8,6 +8,7 @@ $appbar-bg-color: #8d81df;
     padding-left: $gap;
     align-items: center;
     background-color: $appbar-bg-color;
+    height: fit-content;
     font-size: 1rem;
 
     button {
