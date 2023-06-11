@@ -21,8 +21,13 @@ export const loginWithFaceBook = async (data) => {
   return request.data
 }
 
-export const getDashBoardUser = async (id) => {
-  const request = await axios.get(`${API_ROOT}/v1/users/${id}/getDashBoard`)
+// export const getUser= async (id) => {
+//   const request = await axios.get(`${API_ROOT}/v1/users/${id}`)
+//   return request.data
+// }
+
+export const getFullWorkspace = async (wordspaceId, userId) => {
+  const request = await axios.get(`${API_ROOT}/v1/workspaces/${wordspaceId}/${userId}`)
   return request.data
 }
 

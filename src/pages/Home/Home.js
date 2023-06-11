@@ -8,7 +8,7 @@ import DashBoardContent from 'components/DashBoardContent/DashBoardContent'
 import DashBoardTable from 'components/DashBoardTable/DashBoardTable'
 import BoardContent from 'components/BoardContent/BoardContent'
 
-import { getDashBoardUser } from 'actions/ApiCall'
+import { getFullWorkspace } from 'actions/ApiCall'
 import DashBoardMembers from 'components/DashBoardMembers/DashBoardMembers'
 import DashBoardAnalytics from 'components/DashBoardAnalytics/DashBoardAnalytics'
 
@@ -35,8 +35,9 @@ function Home() {
   useEffect(() => {
     (async () => {
       if (isLoaded && currentUser) {
-        getDashBoardUser(currentUser._id).then(boards => {
-          setBoards(boards)
+
+        getFullWorkspace(currentUser.workspaceOrder[0], currentUser._id).then(wordspace => {
+          setBoards(wordspace.boards)
         })
       }
     })()

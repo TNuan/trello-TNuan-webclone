@@ -4,7 +4,7 @@ import { Container as BootstrapContainer, Row, Button, Card } from 'react-bootst
 import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
 
 import './DashBoardContent.scss'
-import { getDashBoardUser } from 'actions/ApiCall'
+import { getUser } from 'actions/ApiCall'
 
 function DashBoardContent(props) {
   const navigate = useNavigate()
