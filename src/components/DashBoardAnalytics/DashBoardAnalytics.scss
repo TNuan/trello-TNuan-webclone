@@ -5,7 +5,7 @@
   height: 100%;
   display: flex;
   background-color: #333;
-  
+  justify-content: center;
   .dashboard-container {
     justify-content: center;
     width: 100%;
@@ -23,35 +23,12 @@
     }
 
     &::-webkit-scrollbar:vertical {
-      width: 10px;
+      width: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: $common-element-bg-color;
       border-radius: 8px;
-    }
-
-    button {
-      background-image: $button-bg;
-      color: white;
-      padding: 0.5rem 1.2rem;
-      border: none;
-      cursor: pointer;
-      border-radius: 0.4rem;
-      font-size: 1rem;
-      text-transform: uppercase;
-      transition: 0.5s ease-in-out;
-
-      &:hover {
-        background-image: $button-bg-hover;
-      }
-    }
-
-    .label-card {
-      min-width: 300px;
-      max-width: 600px;
-      display: flex;
-      flex-wrap: wrap;
     }
   }
 }

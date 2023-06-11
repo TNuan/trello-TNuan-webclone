@@ -5,7 +5,7 @@
   height: 100%;
   display: flex;
   background-color: #333;
-  
+  justify-content: center;
   .dashboard-container {
     justify-content: center;
     width: 100%;
@@ -23,7 +23,7 @@
     }
 
     &::-webkit-scrollbar:vertical {
-      width: 10px;
+      width: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
