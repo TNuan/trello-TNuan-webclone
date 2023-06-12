@@ -22,7 +22,7 @@ function DashBoardContent(props) {
 
   return (
     <div className="dashboard">
-      <DashBoardBar/>
+      {/* <DashBoardBar/> */}
       <BootstrapContainer className='dashboard-container'>
         <Row>
           {boards.map((board, index) => (

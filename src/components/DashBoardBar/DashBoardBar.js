@@ -13,6 +13,7 @@ import { NavLink } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
 function DashBoardBar(props) {
+  const { titleSidebar } = props
   return (
     <div className='dashboard-bar'>
       <CDBSidebar className='sidebar' textColor="#fff" backgroundColor="#333">
@@ -22,7 +23,7 @@ function DashBoardBar(props) {
             className="text-decoration-none"
             style={{ color: 'inherit' }}
           >
-            Code List
+            {titleSidebar}
           </a>
         </CDBSidebarHeader>
 

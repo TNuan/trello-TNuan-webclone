@@ -13,7 +13,7 @@ function DashBoardTable(props) {
 
   return (
     <div className="dashboard-tables">
-      <DashBoardBar />
+      {/* <DashBoardBar /> */}
       <BootstrapContainer className='dashboard-container'>
         <Table striped bordered hover variant="dark" responsive="sm">
           <thead>
