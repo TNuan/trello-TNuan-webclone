@@ -7,15 +7,15 @@ import HomeBar from 'components/HomeBar/HomeBar'
 import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
 import DashBoardContent from 'components/DashBoardContent/DashBoardContent'
 import DashBoardTable from 'components/DashBoardTable/DashBoardTable'
-import BoardContent from 'components/BoardContent/BoardContent'
 
-
-import { getFullWorkspace } from 'actions/ApiCall'
+import { getFullWorkspace, getFullUser } from 'actions/ApiCall'
+// import { getFullUser } from 'actions/ApiCall'
 import DashBoardMembers from 'components/DashBoardMembers/DashBoardMembers'
 import DashBoardAnalytics from 'components/DashBoardAnalytics/DashBoardAnalytics'
 
 function Home() {
   const [currentUser, setCurrentUser] = useState({})
+  const [workspaces, setWorkspaces] = useState([])
   const [boards, setBoards] = useState([])
   const [members, setMembers] = useState([])
   const [titleSidebar, setTitleSidebar] = useState('')
@@ -39,11 +39,14 @@ function Home() {
   useEffect(() => {
     (async () => {
       if (isLoaded && currentUser) {
+        getFullUser(currentUser._id).then((user) => {
+          setWorkspaces(user.workspaces)
+        })
 
         getFullWorkspace(currentUser.workspaceOrder[0], currentUser._id).then(wordspace => {
           setBoards(wordspace.boards),
-            setMembers(wordspace.members),
-            setTitleSidebar(wordspace.title)
+          setMembers(wordspace.members),
+          setTitleSidebar(wordspace.title)
         })
       }
     })()
@@ -51,37 +54,15 @@ function Home() {
       .catch(console.error)
   }, [currentUser])
 
-  // const onUpdateWorkSpaceState = (newColumnToUpdate) => {
-  //   const columnIdToUpdate = newColumnToUpdate._id
-
-  //   let newColumns = [...columns]
-  //   const columnIndexToUpdate = newColumns.findIndex(item => item._id === columnIdToUpdate)
-  //   if (newColumnToUpdate._destroy) {
-  //     // remove column
-  //     newColumns.splice(columnIndexToUpdate, 1)
-  //   } else {
-  //     //update column info
-  //     newColumns.splice(columnIndexToUpdate, 1, newColumnToUpdate)
-  //   }
-
-  //   let newBoard = { ...board }
-  //   newBoard.columnOrder = newColumns.map(col => col._id)
-  //   newBoard.columns = newColumns
-
-  //   setColumn(newColumns)
-  //   setBoard(newBoard)
-  // }
-
   return (
     <div className="trello-container">
       {isLoaded &&
         <>
-          <HomeBar currentUser={currentUser} />
+          <HomeBar currentUser={currentUser} workspaces={workspaces}/>
           <div className='home-container'>
-            <DashBoardBar titleSidebar={titleSidebar}/>
+            <DashBoardBar titleSidebar={titleSidebar} />
             <Routes>
               <Route path='/' element={<DashBoardContent boards={boards} />} />
-              <Route path='/views' element={<BoardContent />} />
               <Route path='/tables' element={<DashBoardTable currentUser={currentUser} />} />
               <Route path='/members' element={<DashBoardMembers currentUser={currentUser} members={members} />} />
               <Route path='/analytics' element={<DashBoardAnalytics currentUser={currentUser} />} />

@@ -5,7 +5,7 @@ import './HomeBar.scss'
 import { createNewBoard } from 'actions/ApiCall'
 
 function HomeBar(props) {
-  const { currentUser } = props
+  const { currentUser, workspaces } = props
   const [modalShow, setModalShow] = useState(false)
   const [visibility, setVisibility] = useState('Workspace')
   const [newBoardTitle, setNewBoardTitle] = useState('')
@@ -42,15 +42,11 @@ function HomeBar(props) {
               <Nav.Link href="#features">Features</Nav.Link>
               <Nav.Link href="#pricing">Pricing</Nav.Link>
               <NavDropdown title="Workspace" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Workspace 1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Workspace 2
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Workspace 3</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Workspace 4
-                </NavDropdown.Item>
+                {
+                  workspaces.map((workspace, index) => (
+                    <NavDropdown.Item key={index} href="/">{workspace.title}</NavDropdown.Item>
+                  ))
+                }
               </NavDropdown>
             </Nav>
             <Nav>
