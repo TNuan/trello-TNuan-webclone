@@ -26,7 +26,6 @@ const DashBoardAnalytics = () => {
 
   return (
     <div className="dashboard-analytics">
-      <DashBoardBar />
       <BootstrapContainer className='dashboard-container'>
         <CDBContainer>
           <h3 className="mt-5">Bar chart</h3>

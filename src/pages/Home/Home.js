@@ -4,9 +4,11 @@ import './Home.scss'
 
 // custom components
 import HomeBar from 'components/HomeBar/HomeBar'
+import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
 import DashBoardContent from 'components/DashBoardContent/DashBoardContent'
 import DashBoardTable from 'components/DashBoardTable/DashBoardTable'
 import BoardContent from 'components/BoardContent/BoardContent'
+
 
 import { getFullWorkspace } from 'actions/ApiCall'
 import DashBoardMembers from 'components/DashBoardMembers/DashBoardMembers'
@@ -15,6 +17,8 @@ import DashBoardAnalytics from 'components/DashBoardAnalytics/DashBoardAnalytics
 function Home() {
   const [currentUser, setCurrentUser] = useState({})
   const [boards, setBoards] = useState([])
+  const [members, setMembers] = useState([])
+  const [titleSidebar, setTitleSidebar] = useState('')
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -37,7 +41,9 @@ function Home() {
       if (isLoaded && currentUser) {
 
         getFullWorkspace(currentUser.workspaceOrder[0], currentUser._id).then(wordspace => {
-          setBoards(wordspace.boards)
+          setBoards(wordspace.boards),
+            setMembers(wordspace.members),
+            setTitleSidebar(wordspace.title)
         })
       }
     })()
@@ -71,14 +77,16 @@ function Home() {
       {isLoaded &&
         <>
           <HomeBar currentUser={currentUser} />
-          <Routes>
-            {/* <Route path='/hello/' element={<DashBoardContent currentUser={currentUser} />} /> */}
-            <Route path='/' element={<DashBoardContent boards={boards} />} />
-            <Route path='/views' element={<BoardContent />} />
-            <Route path='/tables' element={<DashBoardTable currentUser={currentUser}/>} />
-            <Route path='/members' element={<DashBoardMembers currentUser={currentUser}/>} />
-            <Route path='/analytics' element={<DashBoardAnalytics currentUser={currentUser}/>} />
-          </Routes>
+          <div className='home-container'>
+            <DashBoardBar titleSidebar={titleSidebar}/>
+            <Routes>
+              <Route path='/' element={<DashBoardContent boards={boards} />} />
+              <Route path='/views' element={<BoardContent />} />
+              <Route path='/tables' element={<DashBoardTable currentUser={currentUser} />} />
+              <Route path='/members' element={<DashBoardMembers currentUser={currentUser} members={members} />} />
+              <Route path='/analytics' element={<DashBoardAnalytics currentUser={currentUser} />} />
+            </Routes>
+          </div>
         </>
       }
     </div>

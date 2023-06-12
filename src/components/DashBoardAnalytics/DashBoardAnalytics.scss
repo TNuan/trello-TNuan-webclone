@@ -13,6 +13,10 @@
     overflow-x: hidden;
     overflow-y: auto;
 
+    .mt-5 {
+      color: #fff;
+    }
+
     &:after {
       content: '';
       flex: 0 0 $gap;

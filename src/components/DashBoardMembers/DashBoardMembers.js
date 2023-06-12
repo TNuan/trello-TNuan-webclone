@@ -5,7 +5,7 @@ import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
 import './DashBoardMembers.scss'
 
 function DashBoardMembers(props) {
-  const { currentUser } = props
+  const { currentUser, members } = props
 
   const onClickFunction = () => {
     console.log('onClickFunction')
@@ -13,7 +13,7 @@ function DashBoardMembers(props) {
 
   return (
     <div className="dashboard-tables">
-      <DashBoardBar />
+      {/* <DashBoardBar /> */}
       <BootstrapContainer className='dashboard-container'>
         <Table striped bordered hover variant="dark">
           <thead>
@@ -26,16 +26,19 @@ function DashBoardMembers(props) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Otto</td>
-              <td>Sudo</td>
-              <td>@mdo</td>
-              <td>
-                <i onClick="onClickFunction()" className="fa fa-trash"></i>
-              </td>
-            </tr>
-            <tr>
+            {members.map((member, index) => (
+              <tr key={index}>
+                <td>{index}</td>
+                <td>Otto</td>
+                <td>Sudo</td>
+                <td>@{member.username}</td>
+                <td>
+                  <i onClick="onClickFunction()" className="fa fa-trash"></i>
+                </td>
+              </tr>
+            ))}
+
+            {/* <tr>
               <td>2</td>
               <td>Thornton</td>
               <td>John</td>
@@ -45,7 +48,7 @@ function DashBoardMembers(props) {
               <td>3</td>
               <td colSpan={2}>Larry the Bird</td>
               <td>@twitter</td>
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </BootstrapContainer>
