@@ -26,13 +26,17 @@ export const getFullUser= async (id) => {
   return request.data
 }
 
+export const createNewWorkspace = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/workspaces`, data)
+  return request.data
+}
+
 export const getFullWorkspace = async (wordspaceId, userId) => {
   const request = await axios.get(`${API_ROOT}/v1/workspaces/${wordspaceId}/${userId}`)
   return request.data
 }
 
 export const createNewBoard = async (data) => {
-  console.log(data)
   const request = await axios.post(`${API_ROOT}/v1/boards`, data)
   return request.data
 }

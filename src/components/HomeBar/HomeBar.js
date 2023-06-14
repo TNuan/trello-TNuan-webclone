@@ -1,35 +1,46 @@
 import React, { useState, useRef } from 'react'
-import { Container, Navbar, Row, Nav, NavDropdown, Button, Modal, InputGroup, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { Container, Navbar, Nav, NavDropdown, Button, Modal, InputGroup, Form } from 'react-bootstrap'
 import './HomeBar.scss'
 
-import { createNewBoard } from 'actions/ApiCall'
+import { createNewWorkspace } from 'actions/ApiCall'
 
 function HomeBar(props) {
-  const { currentUser, workspaces } = props
+  const { currentUser, workspaces, onUpdateWorkspaceState } = props
   const [modalShow, setModalShow] = useState(false)
-  const [visibility, setVisibility] = useState('Workspace')
-  const [newBoardTitle, setNewBoardTitle] = useState('')
-  const newBoardInputRef = useRef(null)
-  const onNewBoardTitleChange = (e) => setNewBoardTitle(e.target.value)
+  const [newWorkspaceTitle, setNewWorkspaceTitle] = useState('')
+  const newWorkspaceInputRef = useRef(null)
+  const onNewWorkspaceTitleChange = (e) => setNewWorkspaceTitle(e.target.value)
+  const navigate = useNavigate()
 
-  const addNewBoard = () => {
-    if (!newBoardTitle) {
-      newBoardInputRef.current.focus()
+  const addNewWorkspace = () => {
+    if (!newWorkspaceTitle) {
+      newWorkspaceInputRef.current.focus()
       return
     }
 
-    const data = JSON.parse(localStorage.getItem('trello-user'))
-    const newBoardToAdd = {
-      author: data._id,
-      title: newBoardTitle.trim()
+    const newWorkspaceToAdd = {
+      author: currentUser._id,
+      title: newWorkspaceTitle.trim()
     }
 
     //Call APIs
-    createNewBoard(newBoardToAdd).then(Board => {
-      setNewBoardTitle('')
+    createNewWorkspace(newWorkspaceToAdd).then(workspace => {
+      onUpdateWorkspaceState(workspace)
+      setNewWorkspaceTitle('')
       setModalShow(false)
     })
   }
+
+  // const updateWorkspaceState = (workspaceId) => {
+  //   if (workspaceId) {
+  //     navigate('/workspace', {
+  //       state: {
+  //         workspaceId: workspaceId
+  //       }
+  //     })
+  //   }
+  // }
 
   return (
     <nav className="navbar-home">
@@ -44,7 +55,7 @@ function HomeBar(props) {
               <NavDropdown title="Workspace" id="collasible-nav-dropdown">
                 {
                   workspaces.map((workspace, index) => (
-                    <NavDropdown.Item key={index} href="/">{workspace.title}</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => onUpdateWorkspaceState(workspace)} key={index}>{workspace.title}</NavDropdown.Item>
                   ))
                 }
               </NavDropdown>
@@ -65,7 +76,7 @@ function HomeBar(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Create a new board
+            Create a new workspace
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -74,30 +85,15 @@ function HomeBar(props) {
             <Form.Control
               size="sm" type="text" placeholder="Enter column title..."
               className="input-enter-new-column"
-              ref={newBoardInputRef}
-              value={newBoardTitle}
-              onChange={onNewBoardTitleChange}
-              onKeyDown={event => (event.key === 'Enter') && addNewBoard()}
+              ref={newWorkspaceInputRef}
+              value={newWorkspaceTitle}
+              onChange={onNewWorkspaceTitleChange}
+              onKeyDown={event => (event.key === 'Enter') && addNewWorkspace()}
             />
           </InputGroup>
-
-          {/* <InputGroup>
-            <InputGroup.Text className='input-text'>Description</InputGroup.Text>
-            <Form.Control as="textarea" aria-label="With textarea" />
-          </InputGroup>
-
-          <InputGroup className='mt-3'>
-            <InputGroup.Text className='input-text'>Visibility</InputGroup.Text>
-            <DropdownButton id="dropdown-basic-button" title={visibility}>
-              <Dropdown.Item onClick={() => setVisibility('Private')}>Private</Dropdown.Item>
-              <Dropdown.Item onClick={() => setVisibility('Workspace')}>Workspace</Dropdown.Item>
-              <Dropdown.Item onClick={() => setVisibility('Public')}>Public</Dropdown.Item>
-            </DropdownButton>
-          </InputGroup> */}
-
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={addNewBoard}>Create</Button>
+          <Button onClick={addNewWorkspace}>Create</Button>
           <Button onClick={() => setModalShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
