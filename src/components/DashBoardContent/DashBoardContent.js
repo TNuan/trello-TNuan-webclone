@@ -12,7 +12,7 @@ function DashBoardContent(props) {
 
   const showBoard = (boardId) => {
     if (boardId) {
-      navigate('/views', {
+      navigate('/board', {
         state: {
           boardId: boardId
         }
@@ -22,7 +22,6 @@ function DashBoardContent(props) {
 
   return (
     <div className="dashboard">
-      {/* <DashBoardBar/> */}
       <BootstrapContainer className='dashboard-container'>
         <Row>
           {boards.map((board, index) => (

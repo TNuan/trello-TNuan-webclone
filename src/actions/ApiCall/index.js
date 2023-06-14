@@ -21,10 +21,15 @@ export const loginWithFaceBook = async (data) => {
   return request.data
 }
 
-// export const getUser= async (id) => {
-//   const request = await axios.get(`${API_ROOT}/v1/users/${id}`)
-//   return request.data
-// }
+export const getFullUser= async (id) => {
+  const request = await axios.get(`${API_ROOT}/v1/users/${id}`)
+  return request.data
+}
+
+export const createNewWorkspace = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/workspaces`, data)
+  return request.data
+}
 
 export const getFullWorkspace = async (wordspaceId, userId) => {
   const request = await axios.get(`${API_ROOT}/v1/workspaces/${wordspaceId}/${userId}`)
@@ -32,7 +37,6 @@ export const getFullWorkspace = async (wordspaceId, userId) => {
 }
 
 export const createNewBoard = async (data) => {
-  console.log(data)
   const request = await axios.post(`${API_ROOT}/v1/boards`, data)
   return request.data
 }
