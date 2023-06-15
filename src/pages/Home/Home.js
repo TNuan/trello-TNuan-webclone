@@ -18,6 +18,7 @@ function Home() {
   const [workspaces, setWorkspaces] = useState([])
   const [currentWorkspace, setcurrentWorkspace] = useState({})
   const [boards, setBoards] = useState([])
+  const [cards, setCards] = useState([])
   const [members, setMembers] = useState([])
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false)
