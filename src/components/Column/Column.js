@@ -3,6 +3,7 @@ import { Container, Draggable } from 'react-smooth-dnd'
 import { Dropdown, Form, Button } from 'react-bootstrap'
 import { cloneDeep } from 'lodash'
 
+import { CDBBadge, CDBContainer } from 'cdbreact'
 import './Column.scss'
 import Card from 'components/Card/Card'
 import ConfirmModal from 'components/Common/ConfirmModal'
@@ -27,8 +28,10 @@ function Column(props) {
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
 
   const newCardTextareaRef = useRef(null)
+  const newCardLabelRef = useRef(null)
 
   const [newCardTitle, setNewCardTitle] = useState('')
+  const [newCardLabels, setNewCardLabels] = useState([])
   const onNewCardTitleChange = (e) => setNewCardTitle(e.target.value)
 
   useEffect(() => {
@@ -93,8 +96,10 @@ function Column(props) {
     const newCardToAdd = {
       boardId: column.boardId,
       columnId: column._id,
-      title: newCardTitle.trim()
+      title: newCardTitle.trim(),
+      labelOrder: newCardLabels
     }
+    console.log(newCardToAdd)
 
     //Call APIs
     createNewCard(newCardToAdd).then(card => {
@@ -104,8 +109,23 @@ function Column(props) {
 
       onUpdateColumnState(newColumn)
       setNewCardTitle('')
+      setNewCardLabels([])
       toggleOpenNewCardForm()
     })
+  }
+
+  const addLabel = (event) => {
+    if (event.currentTarget.classList.contains('selected-label')) {
+      event.currentTarget.classList.remove('selected-label')
+      let newLabels = [...newCardLabels]
+      newLabels.splice(newLabels.indexOf(event.currentTarget.textContent), 1)
+      setNewCardLabels(newLabels)
+    } else {
+      event.currentTarget.classList.add('selected-label')
+      let newLabels = [...newCardLabels]
+      newLabels.push(event.currentTarget.textContent)
+      setNewCardLabels(newLabels)
+    }
   }
 
   return (
@@ -127,7 +147,7 @@ function Column(props) {
         </div>
         <div className="column-dropdown-actions">
           <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn"/>
+            <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn" />
 
             <Dropdown.Menu>
               <Dropdown.Item onClick={toggleOpenNewCardForm}>Add card...</Dropdown.Item>
@@ -181,8 +201,33 @@ function Column(props) {
               ref={newCardTextareaRef}
               value={newCardTitle}
               onChange={onNewCardTitleChange}
-              onKeyDown={event => (event.key === 'Enter') && addNewCard()}
+              onKeyDown={event => {
+                (event.key === 'Enter') && addNewCard()
+              }}
             />
+            <div className="add-new-card-label" ref={newCardLabelRef}>
+              <CDBBadge onClick={addLabel} className="primary-label" borderType="pill">
+                Primary
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="secondary-label" borderType="pill">
+                Secondary
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="success-label" borderType="pill">
+                Success
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="danger-label" borderType="pill">
+                Danger
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="warning-label" borderType="pill">
+                Warning!
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="info-label" borderType="pill">
+                Info
+              </CDBBadge>
+              <CDBBadge onClick={addLabel} className="dark-label" borderType="pill">
+                Dark
+              </CDBBadge>
+            </div>
           </div>
         }
       </div>
@@ -194,7 +239,7 @@ function Column(props) {
               Add card
             </Button>
             <span className="cancel-icon" onClick={toggleOpenNewCardForm}>
-              <i className="fa fa-trash icon"/>
+              <i className="fa fa-trash icon" />
             </span>
           </div>
         }
