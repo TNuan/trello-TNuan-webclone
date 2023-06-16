@@ -18,7 +18,6 @@ function Home() {
   const [workspaces, setWorkspaces] = useState([])
   const [currentWorkspace, setcurrentWorkspace] = useState({})
   const [boards, setBoards] = useState([])
-  const [cards, setCards] = useState([])
   const [members, setMembers] = useState([])
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false)
@@ -95,7 +94,7 @@ function Home() {
             <DashBoardBar currentWorkspace={currentWorkspace} currentUser={currentUser} onUpdateWorkspaceState={onUpdateWorkspaceState}/>
             <Routes>
               <Route path='/' element={<DashBoardContent boards={boards} />} />
-              <Route path='/tables' element={<DashBoardTable currentUser={currentUser} />} />
+              <Route path='/tables' element={<DashBoardTable currentUser={currentUser} currentWorkspace={currentWorkspace}/>} />
               <Route path='/members' element={<DashBoardMembers currentUser={currentUser} members={members} />} />
               <Route path='/analytics' element={<DashBoardAnalytics currentUser={currentUser} />} />
             </Routes>
