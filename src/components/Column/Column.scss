@@ -136,9 +136,11 @@ $column-footer-height: 46px;
         display: flex;
         // color: #e7e4e4;
         flex-wrap: wrap;
+        padding: 0.5rem;
 
         span {
           cursor: default;
+          margin: 1px;
         }
 
         .primary-label {

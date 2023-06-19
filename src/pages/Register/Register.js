@@ -38,6 +38,7 @@ function Register() {
           toast.error(data.msg, toastOptions)
         }
         if (data.status === true) {
+          console.log(data)
           localStorage.setItem('trello-user', JSON.stringify(data.user))
           navigate('/')
         }

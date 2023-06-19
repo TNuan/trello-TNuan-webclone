@@ -3,17 +3,58 @@
 $card-border-radius: 4px;
 
 .card-item {
-    cursor: pointer;
-    background-color: white;
-    padding: $gap;
-    border-radius: $card-border-radius;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    margin-bottom: $gap;
-    img.card-cover {
-      display: block;
-      width: calc(100% + 2 * #{$gap});
-      margin: -$gap 0 $gap (-$gap);
-      border-top-left-radius: $card-border-radius;
-      border-top-right-radius: $card-border-radius;
+  cursor: pointer;
+  background-color: white;
+  padding: $gap;
+  border-radius: $card-border-radius;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  margin-bottom: $gap;
+  img.card-cover {
+    display: block;
+    width: calc(100% + 2 * #{$gap});
+    margin: -$gap 0 $gap (-$gap);
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+  }
+
+  .card-labels {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
+    .label-item {
+      margin: 0 1px;
+      max-width: 33.33%;
+      flex: auto;
     }
+    .primary-label {
+      background-color: rgb(214, 145, 237);
+    }
+
+    .danger-label {
+      background-color: rgb(148, 3, 37);
+      color: rgb(225, 228, 230)
+    }
+
+    .warning-label {
+      background-color: rgb(242, 242, 51);
+    }
+
+    .success-label {
+      background-color: rgb(67, 249, 88);
+    }
+
+    .secondary-label {
+      background-color: rgb(72, 171, 188);
+    }
+
+    .info-label {
+      background-color: rgb(209, 117, 48);
+    }
+
+    .dark-label {
+      background-color: rgba(22, 15, 24, 0.894);
+      color: rgb(225, 228, 230)
+    }
+  }
 }

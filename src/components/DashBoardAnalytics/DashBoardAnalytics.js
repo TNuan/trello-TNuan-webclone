@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { CDBContainer } from 'cdbreact'
 import { Container as BootstrapContainer } from 'react-bootstrap'
-import DashBoardBar from 'components/DashBoardBar/DashBoardBar'
+import { getAllCardWorkpace } from 'actions/ApiCall'
 import './DashBoardAnalytics.scss'
 
-const DashBoardAnalytics = () => {
-  const [data] = useState({
-    labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+const DashBoardAnalytics = (props) => {
+  const { currentUser, currentWorkspace } = props
+  const [cardItems, setCardItems] = useState([])
+  const [data, setData] = useState({
+    labels: ['Primary', 'Secondary', 'Danger', 'Warning', 'Info', 'Success', 'Dark'],
     datasets: [
       {
         label: 'Active',
         backgroundColor: 'rgba(194, 116, 161, 0.5)',
         borderColor: 'rgb(194, 116, 161)',
-        data: [65, 59, 90, 81, 56, 55, 40],
+        data: [65, 59, 90, 81, 56, 55, 40]
       },
       {
         label: 'Done',
@@ -23,6 +25,50 @@ const DashBoardAnalytics = () => {
       }
     ]
   })
+
+  // useEffect(() => {
+  //   if (currentWorkspace.boardOrder && currentUser) {
+  //     getAllCardWorkpace({ boardOrder: currentWorkspace.boardOrder }).then((cardItems) => {
+  //       setCardItems(cardItems)
+  //     })
+  //   }
+  // }, [currentUser, currentWorkspace])
+
+  // const initialValue = {
+  //   haveLabel: [],
+  //   noLabel: 0
+  // }
+  // const labelName = ['Primary', 'Secondary', 'Danger', 'Warning', 'Info', 'Success', 'Dark']
+  // const dataLabel = cardItems.reduce((accumulator, currentValue) => {
+  //   if (currentValue.labelOrder) {
+  //     accumulator.haveLabel = accumulator.haveLabel.concat(currentValue.labelOrder)
+  //     return accumulator
+  //   } else {
+  //     accumulator.noLabel++
+  //     return accumulator
+  //   }
+  // }, initialValue)
+
+  // const dataToSet = labelName.reduce((accumulator, currentLabel) => {
+  //   const dataHaveLabel = dataLabel.haveLabel.filter(item => item === currentLabel).length
+  //   accumulator.push(dataHaveLabel)
+  //   return accumulator
+  // }, [dataLabel.noLabel])
+
+  // useEffect(() => {
+  //   console.log(dataToSet)
+  //   setData({
+  //     labels: ['Nolabel', 'Primary', 'Secondary', 'Danger', 'Warning!', 'Info', 'Success', 'Dark'],
+  //     datasets: [
+  //       {
+  //         label: 'Active',
+  //         backgroundColor: 'rgba(194, 116, 161, 0.5)',
+  //         borderColor: 'rgb(194, 116, 161)',
+  //         data: [0, 0, 0, 0, 0, 0, 0, 0]
+  //       }
+  //     ]
+  //   })
+  // }, [])
 
   return (
     <div className="dashboard-analytics">

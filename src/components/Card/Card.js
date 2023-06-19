@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { updateCard } from 'actions/ApiCall/index'
+import { CDBBadge } from 'cdbreact'
 
 import './Card.scss'
 
@@ -28,8 +29,17 @@ function Card(props) {
 
   return (
     <div className="card-item">
-      {card.cover && <img src={card.cover} onMouseDown={e => e.preventDefault()} className="card-cover" alt="nuan-alt-img"/>}
+      {card.cover && <img src={card.cover} onMouseDown={e => e.preventDefault()} className="card-cover" alt="nuan-alt-img" />}
       {card.title}
+      {card.labelOrder &&
+        <div className="card-labels">
+          {card.labelOrder.map((label, i) => (
+            <CDBBadge key={i} className={label.toLowerCase() + '-label label-item'} borderType="pill">
+            </CDBBadge>)
+          )}
+        </div>
+      }
+
     </div>
   )
 }

@@ -36,6 +36,11 @@ export const getFullWorkspace = async (wordspaceId, userId) => {
   return request.data
 }
 
+export const getAllCardWorkpace = async (data) => {
+  const request = await axios.post(`${API_ROOT}/v1/cards/getmany`, data)
+  return request.data
+}
+
 export const createNewBoard = async (data) => {
   const request = await axios.post(`${API_ROOT}/v1/boards`, data)
   return request.data

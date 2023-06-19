@@ -219,7 +219,7 @@ function Column(props) {
                 Danger
               </CDBBadge>
               <CDBBadge onClick={addLabel} className="warning-label" borderType="pill">
-                Warning!
+                Warning
               </CDBBadge>
               <CDBBadge onClick={addLabel} className="info-label" borderType="pill">
                 Info
