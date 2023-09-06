@@ -1,11 +1,18 @@
 @import '_setting.scss';
 
 .navbar-board {
-    height: $navbar-board-height;
+    // height: $navbar-board-height;
+    width: 100%;
     padding-left: $gap;
-    display: flex;
+    // display: flex;
+    display: inline-block;
     align-items: center;
+    justify-content: space-between;
     background-color: #a888bc;
     font-size: 1.5rem;
+
+    .delete-item {
+        color: red;
+    }
 }
   

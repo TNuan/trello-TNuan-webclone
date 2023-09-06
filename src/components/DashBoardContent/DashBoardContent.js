@@ -11,7 +11,6 @@ function DashBoardContent(props) {
   const { boards } = props
 
   console.log(boards)
-
   const showBoard = (boardId) => {
     if (boardId) {
       navigate('/board', {
