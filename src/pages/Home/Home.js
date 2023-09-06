@@ -42,9 +42,7 @@ function Home() {
         getFullUser(currentUser._id).then((user) => {
           setWorkspaces(user.workspaces)
         })
-        console.log(currentUser)
         getFullWorkspace(currentUser.workspaceOrder[0], currentUser._id).then(workspace => {
-          console.log(workspace)
           setcurrentWorkspace(workspace)
           setBoards(workspace.boards)
           setMembers(workspace.members)

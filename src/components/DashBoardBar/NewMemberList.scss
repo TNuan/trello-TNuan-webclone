@@ -1,0 +1,34 @@
+.newmember-list {
+  margin-bottom: 10px;
+  .badge {
+    display: inline-block;
+    padding: 10px 12px;
+    margin: 0 2px;
+    border-radius: 12px;
+    background-color: #de80fa;
+    color: #fff;
+    position: relative;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    &:hover {
+      background-color: #dc3594cc;
+      cursor: pointer;
+
+      .delete-icon {
+        visibility: visible;
+      }
+    }
+
+    .delete-icon {
+      background-color: rgba(41, 41, 41, 0.63);
+      border-radius: 10px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      padding: 0 5px;
+      font-size: 20px;
+      color: #fff;
+      visibility: hidden;
+    }
+  }
+}

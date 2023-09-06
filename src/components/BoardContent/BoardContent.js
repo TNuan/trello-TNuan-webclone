@@ -10,7 +10,8 @@ import { applyDrag } from 'utillities/dragDrop'
 import { fetchBoardDetails, createNewColumn, updateBoard, updateColumn, updateCard } from 'actions/ApiCall/index'
 import { useParams, useLocation } from 'react-router-dom'
 
-function BoardContent() {
+function BoardContent(props) {
+  const { socket, currentUser } = props
   const location = useLocation()
   const boardId = location.state.boardId
   // console.log(boardId)
@@ -39,6 +40,24 @@ function BoardContent() {
       newColumnInputRef.current.select()
     }
   }, [openNewColumnForm])
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on('updateBoards', (username, data) => {
+        if (username != currentUser._id) {
+          let newColumns = [...columns]
+          newColumns.push(data)
+
+          let newBoard = { ...board }
+          newBoard.columnOrder = newColumns.map(col => col._id)
+          newBoard.columns = newColumns
+
+          setColumn(newColumns)
+          setBoard(newBoard)
+        }
+      })
+    }
+  })
 
   const onColumnDrop = (dropResult) => {
     let newColumns = cloneDeep(columns)
@@ -116,6 +135,7 @@ function BoardContent() {
       setBoard(newBoard)
       setNewColumnTitle('')
       toggleOpenNewColumnForm()
+      socket.current.emit('sendMessage', column)
     })
   }
 

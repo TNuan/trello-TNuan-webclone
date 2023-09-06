@@ -26,6 +26,11 @@ export const getFullUser= async (id) => {
   return request.data
 }
 
+export const searchUsers= async (key) => {
+  const request = await axios.get(`${API_ROOT}/v1/users/search/${key}`)
+  return request.data
+}
+
 export const createNewWorkspace = async (data) => {
   const request = await axios.post(`${API_ROOT}/v1/workspaces`, data)
   return request.data
@@ -33,6 +38,11 @@ export const createNewWorkspace = async (data) => {
 
 export const getFullWorkspace = async (wordspaceId, userId) => {
   const request = await axios.get(`${API_ROOT}/v1/workspaces/${wordspaceId}/${userId}`)
+  return request.data
+}
+
+export const updateWorkspace = async (id, data) => {
+  const request = await axios.put(`${API_ROOT}/v1/workspaces/${id}`, data)
   return request.data
 }
 

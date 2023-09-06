@@ -9,16 +9,73 @@ import {
 } from 'cdbreact'
 
 import { NavLink, useNavigate } from 'react-router-dom'
-import { createNewBoard } from 'actions/ApiCall'
-import { Modal, InputGroup, Button, Form } from 'react-bootstrap'
+import { createNewBoard, searchUsers, updateWorkspace } from 'actions/ApiCall'
+import { Modal, InputGroup, Button, Form, Dropdown } from 'react-bootstrap'
+import SearchRecommendation from './SearchRecommendation'
+import NewMembersList from './NewMembersList'
 import './DashBoardBar.scss'
 
 function DashBoardBar(props) {
   const { currentWorkspace, currentUser } = props
   const [modalShow, setModalShow] = useState(false)
+  const [modalMemberShow, setModalMemberShow] = useState(false)
   const [newBoardTitle, setNewBoardTitle] = useState('')
+  const [newMembersToAdd, setNewMemberToAdd] = useState([])
+  const [newMemberInput, setNewMemberInput] = useState('')
+  const [newMemberRecommendation, setNewMemberRecommendation] = useState([])
   const newBoardInputRef = useRef(null)
+  const newMemberInputRef = useRef(null)
+
   const onNewBoardTitleChange = (e) => setNewBoardTitle(e.target.value)
+  const onNewMemberChange = (e) => {
+    setNewMemberInput(e.target.value)
+    if (e.target.value) {
+      searchUsers(e.target.value).then(users => {
+        setNewMemberRecommendation(users)
+      })
+    } else {
+      setNewMemberRecommendation([])
+    }
+  }
+
+  const onSelectRecommendation = (selectMember) => {
+    setNewMemberInput('')
+    newMemberInputRef.current.focus()
+    setNewMemberRecommendation([])
+    if (!newMembersToAdd.find((member) => member._id === selectMember._id)) {
+      let newMems = [...newMembersToAdd]
+      newMems.push(selectMember)
+      setNewMemberToAdd(newMems)
+    }
+  }
+
+  const onDeleteMembersToAdd = (index) => {
+    setNewMemberInput('')
+    newMemberInputRef.current.focus()
+    setNewMemberRecommendation([])
+    let newMems = [...newMembersToAdd]
+    newMems.splice(index, 1)
+    setNewMemberToAdd(newMems)
+
+  }
+
+  const addNewMembers = () => {
+    if (!newMembersToAdd) {
+      newMemberInputRef.current.focus()
+      return
+    }
+
+    const newMemberOrder = newMembersToAdd.reduce((acc, currentMember) => {
+      acc.push(currentMember._id)
+      return acc
+    }, [])
+
+    const newMemberOrderToAdd = currentWorkspace.memberOrder.concat(newMemberOrder)
+    //Call APIs
+    updateWorkspace(currentWorkspace._id, { memberOrder: newMemberOrderToAdd })
+    //Close modal
+    setModalMemberShow(false)
+  }
 
   const navigate = useNavigate()
 
@@ -27,14 +84,14 @@ function DashBoardBar(props) {
       newBoardInputRef.current.focus()
       return
     }
-
     const newBoardToAdd = {
       author: currentUser._id,
       workspaceId: currentWorkspace._id,
+      userOrder: [currentWorkspace.author],
       title: newBoardTitle.trim()
     }
 
-    //Call APIs
+    // Call APIs
     createNewBoard(newBoardToAdd).then(board => {
       if (board._id) {
         navigate('/board', {
@@ -48,9 +105,6 @@ function DashBoardBar(props) {
     })
   }
 
-  const addMember = () => {
-    console.log('addMember')
-  }
 
   return (
     <div className='dashboard-bar'>
@@ -90,7 +144,7 @@ function DashBoardBar(props) {
                     {/* <CDBBadge color="danger" borderType="pill">
                       7
                     </CDBBadge> */}
-                    <i onClick={() => addMember()} className="fa fa-plus"></i>
+                    <i onClick={() => setModalMemberShow(true)} className="fa fa-plus"></i>
                   </div>
                 }
               >Members</CDBSidebarMenuItem>
@@ -142,6 +196,39 @@ function DashBoardBar(props) {
         <Modal.Footer>
           <Button onClick={addNewBoard}>Create</Button>
           <Button onClick={() => setModalShow(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={modalMemberShow}
+        onHide={() => setModalMemberShow(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Add member to workspace
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NewMembersList newMembersToAdd={newMembersToAdd} onDeleteMembersToAdd={onDeleteMembersToAdd} />
+          <InputGroup className="mb-3">
+            {/* <InputGroup.Text id="basic-addon1" className='input-text'>Username</InputGroup.Text> */}
+            <Form.Control
+              size="sm" type="text" placeholder="Enter username or email..."
+              className="input-enter-new-column"
+              ref={newMemberInputRef}
+              value={newMemberInput}
+              onChange={onNewMemberChange}
+              onKeyDown={event => (event.key === 'Enter') && {}}
+            />
+          </InputGroup>
+          <SearchRecommendation newMemberRecommendation={newMemberRecommendation} onSelectRecommendation={onSelectRecommendation} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={addNewMembers}>Add</Button>
+          <Button onClick={() => setModalMemberShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
 
