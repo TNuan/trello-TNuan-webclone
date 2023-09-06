@@ -43,15 +43,8 @@ function BoardContent(props) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on('updateBoards', (username, data) => {
+      socket.current.on('updateBoards', (username, newColumns, newBoard) => {
         if (username != currentUser._id) {
-          let newColumns = [...columns]
-          newColumns.push(data)
-
-          let newBoard = { ...board }
-          newBoard.columnOrder = newColumns.map(col => col._id)
-          newBoard.columns = newColumns
-
           setColumn(newColumns)
           setBoard(newBoard)
         }
@@ -69,6 +62,7 @@ function BoardContent(props) {
 
     setColumn(newColumns)
     setBoard(newBoard)
+    socket.current.emit('sendUpdateBoards', newColumns, newBoard)
     // Call api update ColumnOrder in board details.
     updateBoard(newBoard._id, newBoard).catch(() => {
       setColumn(columns)
@@ -85,7 +79,14 @@ function BoardContent(props) {
       currentColumn.cards = applyDrag(currentColumn.cards, dropResult)
       currentColumn.cardOrder = currentColumn.cards.map(item => item._id)
 
+      let newBoard = { ...board }
+      newBoard.columnOrder = newColumns.map(col => col._id)
+      newBoard.columns = newColumns
+
       setColumn(newColumns)
+      setBoard(newBoard)
+
+      socket.current.emit('sendUpdateBoards', newColumns, newBoard)
 
       if (dropResult.removedIndex !== null && dropResult.addedIndex !== null) {
         /**
@@ -135,7 +136,7 @@ function BoardContent(props) {
       setBoard(newBoard)
       setNewColumnTitle('')
       toggleOpenNewColumnForm()
-      socket.current.emit('sendMessage', column)
+      socket.current.emit('sendUpdateBoards', newColumns, newBoard)
     })
   }
 
@@ -158,6 +159,7 @@ function BoardContent(props) {
 
     setColumn(newColumns)
     setBoard(newBoard)
+    socket.current.emit('sendUpdateBoards', newColumns, newBoard)
   }
 
   return (
