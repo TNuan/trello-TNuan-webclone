@@ -3,18 +3,21 @@ import './Board.scss'
 
 // custom components
 import BoardBar from 'components/BoardBar/BoardBar'
-import HomeBar from 'components/HomeBar/HomeBar'
 import BoardContent from 'components/BoardContent/BoardContent'
-import { useLocation, useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useRef, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import { API_ROOT } from 'utillities/constants'
+import { fetchBoardDetails } from 'actions/ApiCall'
+import { mapOrder } from 'utillities/sort'
 
 function Board() {
   const location = useLocation()
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
+  const [board, setBoard] = useState({})
+  const [columns, setColumn] = useState([])
   const socket = useRef()
 
   useEffect(() => {
@@ -34,11 +37,25 @@ function Board() {
       .catch(console.error)
   }, [])
 
+  useEffect(() => {
+    fetchBoardDetails(location.state.boardId).then(board => {
+      setBoard(board)
+      setColumn(mapOrder(board.columns, board.columnOrder, '_id'))
+      setIsLoaded(true)
+    })
+  }, [])
 
   return (
     <div className="trello-container">
-      <BoardBar />
-      <BoardContent boardId={location.state.boardId} socket={socket} currentUser={currentUser} />
+      <BoardBar board={board} columns={columns} />
+      <BoardContent
+        isLoaded={isLoaded}
+        board={board}
+        columns={columns}
+        setBoard={setBoard}
+        setColumn={setColumn}
+        socket={socket}
+        currentUser={currentUser} />
     </div>
   )
 }

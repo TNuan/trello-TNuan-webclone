@@ -2,17 +2,21 @@ import { React, useState } from 'react'
 import { Navbar, Container, NavDropdown } from 'react-bootstrap'
 import { MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import AddMemberModal from 'components/Common/AddMember/AddMemberModal'
+import { updateBoard } from 'actions/ApiCall'
 
 import './BoardBar.scss'
 
-function BoardBar() {
+function BoardBar(props) {
+  const { board } = props
   const [modalMemberShow, setModalMemberShow] = useState(false)
 
   const onAddMembers = (type, newMemberOrder) => {
     if (type === MODAL_ACTION_CONFIRM) {
       // Handle and call api
+      const newMemberOrderToAdd = board.userOrder.concat(newMemberOrder)
+      //Call APIs update board
+      updateBoard(board._id, { userOrder: newMemberOrderToAdd })
     }
-
     //Close modal
     setModalMemberShow(false)
   }

@@ -5,34 +5,17 @@ import { isEmpty, cloneDeep } from 'lodash'
 
 import './BoardContent.scss'
 import Column from 'components/Column/Column'
-import { mapOrder } from 'utillities/sort'
 import { applyDrag } from 'utillities/dragDrop'
-import { fetchBoardDetails, createNewColumn, updateBoard, updateColumn, updateCard } from 'actions/ApiCall/index'
-import { useParams, useLocation } from 'react-router-dom'
+import { createNewColumn, updateBoard, updateColumn, updateCard } from 'actions/ApiCall/index'
 
 function BoardContent(props) {
-  const { socket, currentUser } = props
-  const location = useLocation()
-  const boardId = location.state.boardId
-  // console.log(boardId)
-  const [board, setBoard] = useState({})
-  const [columns, setColumn] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false)
-
+  const { socket, currentUser, board, columns, setBoard, setColumn, isLoaded } = props
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
   const newColumnInputRef = useRef(null)
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value)
-
-  useEffect(() => {
-    fetchBoardDetails(boardId).then(board => {
-      setBoard(board)
-      setColumn(mapOrder(board.columns, board.columnOrder, '_id'))
-      setIsLoaded(true)
-    })
-  }, [])
 
   useEffect(() => {
     if (newColumnInputRef && newColumnInputRef.current) {
