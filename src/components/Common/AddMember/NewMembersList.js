@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react'
-import {
-  CDBBadge
-} from 'cdbreact'
+import React from 'react'
 import './NewMemberList.scss'
 
 export default function NewMembersList(props) {
@@ -11,7 +8,7 @@ export default function NewMembersList(props) {
   const members = newMembersToAdd.map((user, index) => (
     <div className="badge" key={index}>
       {user.username}
-      <span className="delete-icon" onClick={() => {onDeleteMembersToAdd(index)}}>&times;</span>
+      <span className="delete-icon" onClick={() => { onDeleteMembersToAdd(index) }}>&times;</span>
     </div>
   ))
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import './SearchRecommendation.scss'
-import { useEffect, useRef } from 'react'
 
 export default function SearchRecommendation(props) {
   const { newMemberRecommendation, onSelectRecommendation } = props

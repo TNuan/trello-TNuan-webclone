@@ -9,10 +9,10 @@ import {
 } from 'cdbreact'
 
 import { NavLink, useNavigate } from 'react-router-dom'
-import { createNewBoard, searchUsers, updateWorkspace } from 'actions/ApiCall'
-import { Modal, InputGroup, Button, Form, Dropdown } from 'react-bootstrap'
-import SearchRecommendation from './SearchRecommendation'
-import NewMembersList from './NewMembersList'
+import { createNewBoard, updateWorkspace } from 'actions/ApiCall'
+import { Modal, InputGroup, Button, Form } from 'react-bootstrap'
+import AddMemberModal from 'components/Common/AddMember/AddMemberModal'
+import { MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import './DashBoardBar.scss'
 
 function DashBoardBar(props) {
@@ -20,59 +20,17 @@ function DashBoardBar(props) {
   const [modalShow, setModalShow] = useState(false)
   const [modalMemberShow, setModalMemberShow] = useState(false)
   const [newBoardTitle, setNewBoardTitle] = useState('')
-  const [newMembersToAdd, setNewMemberToAdd] = useState([])
-  const [newMemberInput, setNewMemberInput] = useState('')
-  const [newMemberRecommendation, setNewMemberRecommendation] = useState([])
   const newBoardInputRef = useRef(null)
-  const newMemberInputRef = useRef(null)
 
   const onNewBoardTitleChange = (e) => setNewBoardTitle(e.target.value)
-  const onNewMemberChange = (e) => {
-    setNewMemberInput(e.target.value)
-    if (e.target.value) {
-      searchUsers(e.target.value).then(users => {
-        setNewMemberRecommendation(users)
-      })
-    } else {
-      setNewMemberRecommendation([])
+
+  const onAddMembers = (type, newMemberOrder) => {
+    if (type === MODAL_ACTION_CONFIRM) {
+      const newMemberOrderToAdd = currentWorkspace.memberOrder.concat(newMemberOrder)
+      // console.log(newMemberOrderToAdd)
+      //Call APIs update workspace
+      updateWorkspace(currentWorkspace._id, { memberOrder: newMemberOrderToAdd })
     }
-  }
-
-  const onSelectRecommendation = (selectMember) => {
-    setNewMemberInput('')
-    newMemberInputRef.current.focus()
-    setNewMemberRecommendation([])
-    if (!newMembersToAdd.find((member) => member._id === selectMember._id)) {
-      let newMems = [...newMembersToAdd]
-      newMems.push(selectMember)
-      setNewMemberToAdd(newMems)
-    }
-  }
-
-  const onDeleteMembersToAdd = (index) => {
-    setNewMemberInput('')
-    newMemberInputRef.current.focus()
-    setNewMemberRecommendation([])
-    let newMems = [...newMembersToAdd]
-    newMems.splice(index, 1)
-    setNewMemberToAdd(newMems)
-
-  }
-
-  const addNewMembers = () => {
-    if (!newMembersToAdd) {
-      newMemberInputRef.current.focus()
-      return
-    }
-
-    const newMemberOrder = newMembersToAdd.reduce((acc, currentMember) => {
-      acc.push(currentMember._id)
-      return acc
-    }, [])
-
-    const newMemberOrderToAdd = currentWorkspace.memberOrder.concat(newMemberOrder)
-    //Call APIs
-    updateWorkspace(currentWorkspace._id, { memberOrder: newMemberOrderToAdd })
     //Close modal
     setModalMemberShow(false)
   }
@@ -199,38 +157,10 @@ function DashBoardBar(props) {
         </Modal.Footer>
       </Modal>
 
-      <Modal
-        show={modalMemberShow}
-        onHide={() => setModalMemberShow(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Add member to workspace
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <NewMembersList newMembersToAdd={newMembersToAdd} onDeleteMembersToAdd={onDeleteMembersToAdd} />
-          <InputGroup className="mb-3">
-            {/* <InputGroup.Text id="basic-addon1" className='input-text'>Username</InputGroup.Text> */}
-            <Form.Control
-              size="sm" type="text" placeholder="Enter username or email..."
-              className="input-enter-new-column"
-              ref={newMemberInputRef}
-              value={newMemberInput}
-              onChange={onNewMemberChange}
-              onKeyDown={event => (event.key === 'Enter') && {}}
-            />
-          </InputGroup>
-          <SearchRecommendation newMemberRecommendation={newMemberRecommendation} onSelectRecommendation={onSelectRecommendation} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={addNewMembers}>Add</Button>
-          <Button onClick={() => setModalMemberShow(false)}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+      <AddMemberModal
+        modalShow={modalMemberShow}
+        onAddMembers={onAddMembers}
+      />
 
     </div>
   )
