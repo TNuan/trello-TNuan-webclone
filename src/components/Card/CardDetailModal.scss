@@ -1,0 +1,90 @@
+@import '_setting.scss';
+
+.modal-card-detail {
+  .content-card-detail {
+    display: flex;
+    justify-content: space-between;
+
+    .body-card-detail {
+      width: 60%;
+      .label-and-noti {
+        display: flex;
+        // width: 100%;
+        // align-items: center;
+        justify-content: space-between;
+      }
+      h4 {
+        i {
+          margin-right: 20px;
+          margin-top: 20px;
+        }
+      }
+    }
+
+    .nav-card-detail {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        background-color: gray;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        margin: 10px;
+        i {
+          margin-right: 8px;
+        }
+      }
+
+    }
+  }
+
+  .label-detail {
+    // display: flex;
+    // height: 30px;
+    align-items: center;
+  }
+  .card-labels {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
+
+    .label-item {
+      margin: 0 1px;
+      flex: auto;
+      max-width: fit-content;
+      border-radius: 6px;    
+    }
+
+    .primary-label {
+      background-color: rgb(214, 145, 237);
+    }
+
+    .danger-label {
+      background-color: rgb(148, 3, 37);
+      color: rgb(225, 228, 230)
+    }
+
+    .warning-label {
+      background-color: rgb(242, 242, 51);
+    }
+
+    .success-label {
+      background-color: rgb(67, 249, 88);
+    }
+
+    .secondary-label {
+      background-color: rgb(72, 171, 188);
+    }
+
+    .info-label {
+      background-color: rgb(209, 117, 48);
+    }
+
+    .dark-label {
+      background-color: rgba(22, 15, 24, 0.894);
+      color: rgb(225, 228, 230)
+    }
+  }
+}

@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { updateCard } from 'actions/ApiCall/index'
 import { CDBBadge } from 'cdbreact'
+import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 
 import './Card.scss'
+import CardDetailModal from './CardDetailModal'
 
 function Card(props) {
   const { card, onUpdateCardState } = props
 
   const [cardTitle, setCardTitle] = useState('')
   const handleCardTitleChange = (e) => setCardTitle(e.target.value)
+  const [showCardDetailModal, setShowCardDetailModal] = useState(false)
+  const toggleShowCardDetailModal = () => setShowCardDetailModal(!showCardDetailModal)
 
   useEffect(() => {
     setCardTitle(card.title)
@@ -27,8 +31,17 @@ function Card(props) {
     }
   }
 
+
+  const onConfirmModalAction = (action) => {
+    if (action === MODAL_ACTION_CONFIRM) {
+      // do something
+      
+    }
+    toggleShowCardDetailModal()
+  }
+
   return (
-    <div className="card-item">
+    <div className="card-item" onClick={() => toggleShowCardDetailModal()}>
       {card.cover && <img src={card.cover} onMouseDown={e => e.preventDefault()} className="card-cover" alt="nuan-alt-img" />}
       {card.title}
       {card.labelOrder &&
@@ -40,6 +53,11 @@ function Card(props) {
         </div>
       }
 
+      <CardDetailModal
+        card={card}
+        show={showCardDetailModal}
+        onAction={onConfirmModalAction}
+      />
     </div>
   )
 }
