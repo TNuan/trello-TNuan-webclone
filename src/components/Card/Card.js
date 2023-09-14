@@ -18,47 +18,49 @@ function Card(props) {
     setCardTitle(card.title)
   }, [card.title])
 
-  const handleCardTitleBlur = () => {
-    if (cardTitle !== card.title) {
-      const newCard = {
-        ...card,
-        title: cardTitle
-      }
-      // Call APIs update Card
-      updateCard(newCard._id, newCard).then(updatedCard => {
-        onUpdateCardState(updatedCard)
-      })
-    }
-  }
+  // const handleCardTitleBlur = () => {
+  //   if (cardTitle !== card.title) {
+  //     const newCard = {
+  //       ...card,
+  //       title: cardTitle
+  //     }
+  //     // Call APIs update Card
+  //     updateCard(newCard._id, newCard).then(updatedCard => {
+  //       onUpdateCardState(updatedCard)
+  //     })
+  //   }
+  // }
 
 
   const onConfirmModalAction = (action) => {
     if (action === MODAL_ACTION_CONFIRM) {
       // do something
-      
+
     }
     toggleShowCardDetailModal()
   }
 
   return (
-    <div className="card-item" onClick={() => toggleShowCardDetailModal()}>
-      {card.cover && <img src={card.cover} onMouseDown={e => e.preventDefault()} className="card-cover" alt="nuan-alt-img" />}
-      {card.title}
-      {card.labelOrder &&
-        <div className="card-labels">
-          {card.labelOrder.map((label, i) => (
-            <CDBBadge key={i} className={label.toLowerCase() + '-label label-item'} borderType="pill">
-            </CDBBadge>)
-          )}
-        </div>
-      }
-
+    <div>
+      <div className="card-item" onClick={() => toggleShowCardDetailModal()}>
+        {card.cover && <img src={card.cover} onMouseDown={e => e.preventDefault()} className="card-cover" alt="nuan-alt-img" />}
+        {card.title}
+        {card.labelOrder &&
+          <div className="card-labels">
+            {card.labelOrder.map((label, i) => (
+              <CDBBadge key={i} className={label.toLowerCase() + '-label label-item'} borderType="pill">
+              </CDBBadge>)
+            )}
+          </div>
+        }
+      </div>
       <CardDetailModal
         card={card}
         show={showCardDetailModal}
         onAction={onConfirmModalAction}
       />
     </div>
+
   )
 }
 

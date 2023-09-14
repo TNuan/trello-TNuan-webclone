@@ -1,6 +1,20 @@
 @import '_setting.scss';
 
 .modal-card-detail {
+  height: max-content;
+  .title-card-detail {
+    .nuandev-contenteditable {
+      background-color: inherit;
+      border: none;
+      cursor: pointer;
+      font-size: inherit;
+      font-weight: inherit;
+      &:focus {
+        background-color: #fff;
+      }
+    }
+  }
+
   .content-card-detail {
     display: flex;
     justify-content: space-between;
@@ -19,6 +33,17 @@
           margin-top: 20px;
         }
       }
+
+      .nuandev-contenteditable {
+        background-color: inherit;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        // font-weight: inherit;
+        &:focus {
+          background-color: #fff;
+        }
+      }
     }
 
     .nav-card-detail {
@@ -30,7 +55,7 @@
         display: flex;
         justify-content: start;
         align-items: center;
-        margin: 10px;
+        margin-top: 8px;
         i {
           margin-right: 8px;
         }

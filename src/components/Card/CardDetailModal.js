@@ -1,28 +1,60 @@
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, FormCheck } from 'react-bootstrap'
 import { CDBBadge } from 'cdbreact'
 import HTMLReactParser from 'html-react-parser'
 import { React, useState, useRef } from 'react'
 import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
+import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
+import DateTimePicker from 'components/Common/DateTimePicker'
+import { updateCard } from 'actions/ApiCall'
 import './CardDetailModal.scss'
+
 
 function CardDetailModal(props) {
   const { card, show, onAction } = props
-  const [cardTitle, setCardTitle] = useState('')
+  const [cardTitle, setCardTitle] = useState(card.title)
+  // const newCardTextareaRef = useRef(null)
+  const [isShowDateTimePicker, setIsShowDateTimePicker] = useState(false)
+  const toggleShowDatePicker = () => setIsShowDateTimePicker(!isShowDateTimePicker)
+
   const [cardDescription, setCardDescription] = useState(card.description)
-  const newCardTextareaRef = useRef(null)
+  const handleCardDescriptionChange = (e) => setCardDescription(e.target.value)
+  const handleCardTitleChange = (e) => setCardTitle(e.target.value)
+
+  const handleDateTimePicker = (action) => {
+    toggleShowDatePicker()
+  }
 
 
   const handleCardDescriptionBlur = () => {
+    if (cardDescription !== card.description) {
+      const newCard = {
+        ...card,
+        description: cardDescription
+      }
+
+      //Call APIs update Card
+      updateCard(newCard._id, newCard).then(updatedCard => {
+        // onUpdateCardState(updatedCard)
+      })
+    }
+  }
+
+  const handleCardTitleBlur = () => {
     if (cardTitle !== card.title) {
       const newCard = {
         ...card,
         title: cardTitle
       }
-      // Call APIs update Card
-      // updateCard(newCard._id, newCard).then(updatedCard => {
-      //   onUpdateCardState(updatedCard)
-      // })
+
+      //Call APIs update Card
+      updateCard(newCard._id, newCard).then(updatedCard => {
+        // onUpdateCardState(updatedCard)
+      })
     }
+  }
+
+  const showDatePicker = () => {
+
   }
 
   return (
@@ -30,12 +62,25 @@ function CardDetailModal(props) {
       show={show}
       onHide={() => onAction('')}
       backdrop="static"
-      keyboard={false}
-      animation={false}
       className='modal-card-detail modal-lg'
     >
       <Modal.Header closeButton>
-        <Modal.Title className="h2">{HTMLReactParser(card.title)}</Modal.Title>
+        <Modal.Title className="h2">
+          <div className="title-card-detail">
+            <Form.Control
+              size="sm"
+              type="text"
+              className="nuandev-contenteditable"
+              value={cardTitle}
+              onChange={handleCardTitleChange}
+              onBlur={handleCardTitleBlur}
+              onKeyDown={saveContentAfterPressEnter}
+              onClick={selectAllInLineText}
+              onMouseDown={e => e.preventDefault()}
+              spellCheck="false"
+            />
+          </div>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body className='content-card-detail'>
         <div className="body-card-detail">
@@ -68,25 +113,32 @@ function CardDetailModal(props) {
                 Watch
               </Button>
             </div>
-
+          </div>
+          <div>
+            <h5>
+              Due date
+            </h5>
+            <FormCheck></FormCheck>
           </div>
           <div>
             <h4>
               <i className="fa fa-align-left" aria-hidden="true"></i>
               Description
-              <Form.Control
-                size="sm"
-                as="textarea"
-                rows="3"
-                placeholder="Enter a description for this card..."
-                className="textarea-enter-new-card"
-                ref={newCardTextareaRef}
-                // value={newCardDescription}
-                // onChange={onNewCardTitleChange}
-                // onKeyDown={event => {
-                //   (event.key === 'Enter') && addNewCard()
-                // }}
-              />
+              <div className="card-description">
+                <Form.Control
+                  size="sm"
+                  as="textarea"
+                  rows="3"
+                  className="nuandev-contenteditable"
+                  value={cardDescription}
+                  onChange={handleCardDescriptionChange}
+                  onBlur={handleCardDescriptionBlur}
+                  onKeyDown={saveContentAfterPressEnter}
+                  onClick={selectAllInLineText}
+                  onMouseDown={e => e.preventDefault()}
+                // spellCheck="false"
+                />
+              </div>
             </h4>
 
           </div>
@@ -103,6 +155,7 @@ function CardDetailModal(props) {
         </div>
         {/* {HTMLReactParser(card.description)} */}
         <div className="nav-card-detail">
+          <h5>Add to card</h5>
           <Button>
             <i className="fa fa-user" aria-hidden="true"></i>
             Members
@@ -115,10 +168,11 @@ function CardDetailModal(props) {
             <i className="fa fa-check-square-o" aria-hidden="true"></i>
             Checklist
           </Button>
-          <Button>
+          <Button onClick={() => toggleShowDatePicker()}>
             <i className="fa fa-clock-o" aria-hidden="true"></i>
             Dates
           </Button>
+          <DateTimePicker show={isShowDateTimePicker} onAction={handleDateTimePicker} card={card}/>
           <Button>
             <i className="fa fa-paperclip" aria-hidden="true"></i>
             Attachment
@@ -133,9 +187,9 @@ function CardDetailModal(props) {
         <Button variant="secondary" onClick={() => onAction(MODAL_ACTION_CLOSE)}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => onAction(MODAL_ACTION_CONFIRM)}>
+        {/* <Button variant="primary" onClick={() => onAction(MODAL_ACTION_CONFIRM)}>
           Save Changes
-        </Button>
+        </Button> */}
       </Modal.Footer>
     </Modal>
   )
