@@ -5,6 +5,7 @@ import { React, useState, useRef } from 'react'
 import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
 import DateTimePicker from 'components/Common/DateTimePicker'
+import { getDateTime } from 'utillities/sort'
 import { updateCard } from 'actions/ApiCall'
 import './CardDetailModal.scss'
 
@@ -19,11 +20,6 @@ function CardDetailModal(props) {
   const [cardDescription, setCardDescription] = useState(card.description)
   const handleCardDescriptionChange = (e) => setCardDescription(e.target.value)
   const handleCardTitleChange = (e) => setCardTitle(e.target.value)
-
-  const handleDateTimePicker = (action) => {
-    toggleShowDatePicker()
-  }
-
 
   const handleCardDescriptionBlur = () => {
     if (cardDescription !== card.description) {
@@ -51,10 +47,6 @@ function CardDetailModal(props) {
         // onUpdateCardState(updatedCard)
       })
     }
-  }
-
-  const showDatePicker = () => {
-
   }
 
   return (
@@ -118,7 +110,16 @@ function CardDetailModal(props) {
             <h5>
               Due date
             </h5>
-            <FormCheck></FormCheck>
+            <div>
+              <FormCheck></FormCheck>
+              {card.endAt &&
+                <div>
+                  {
+                    getDateTime(new Date(card.endAt)).join(' at ')
+                  }
+                </div>
+              }
+            </div>
           </div>
           <div>
             <h4>
@@ -172,7 +173,7 @@ function CardDetailModal(props) {
             <i className="fa fa-clock-o" aria-hidden="true"></i>
             Dates
           </Button>
-          <DateTimePicker show={isShowDateTimePicker} onAction={handleDateTimePicker} card={card}/>
+          <DateTimePicker show={isShowDateTimePicker} toggleShowDatePicker={toggleShowDatePicker} card={card} />
           <Button>
             <i className="fa fa-paperclip" aria-hidden="true"></i>
             Attachment

@@ -1,36 +1,50 @@
 import { React, useState, useRef, useEffect } from 'react'
 import { Modal, Button, Form, Dropdown } from 'react-bootstrap'
-import HTMLReactParser from 'html-react-parser'
-import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
+import { updateCard } from 'actions/ApiCall'
+import { getDateTime } from 'utillities/sort'
 import './DateTimePicker.scss'
 
 function DateTimePicker(props) {
-  const { show, onAction, card } = props
-  useEffect(() => {
-    const start = new Date(card.createdAt)
-    // console.log(start.toISOString().split('T'))
-    const date = start.toISOString().split('T')[0]
-
-    let hours = start.getHours()
-    let minutes = start.getMinutes()
-
-    if (hours < 10 ) {
-      hours = '0' + hours
-    }
-
-    if (minutes < 10) { minutes = '0' + minutes }
-    const time = `${hours}:${minutes}`
-    setStartDate(date)
-    setStartTime(time)
-  }, [])
-  const [startDate, setStartDate] = useState(null)
-  const [startTime, setStartTime] = useState(null)
+  const { show, toggleShowDatePicker, card } = props
+  const [startTime, setStartTime] = useState([])
   const [endTime, setEndTime] = useState([])
+  useEffect(() => {
+    let start = new Date(Date.now())
+    let end = new Date(Date.now())
+    if (card.startAt) {
+      start = new Date(card.startAt)
+    }
+    if (card.endAt) {
+      end = new Date(card.endAt)
+    }
+    const startAt = getDateTime(start)
+    const endAt = getDateTime(end)
 
+    setStartTime(startAt)
+    setEndTime(endAt)
+  }, [])
+
+  const handleOnChangeDateTime = () => {
+    const dateStartString = startTime.join('T')
+    const dateEndString = endTime.join('T')
+    const timestampStart = Date.parse(dateStartString)
+    const timestampEnd = Date.parse(dateEndString)
+    if (timestampStart !== card.startAt || timestampEnd !== card.endAt) {
+      const newCard = {
+        ...card,
+        startAt: timestampStart,
+        endAt: timestampEnd
+      }
+      updateCard(newCard._id, newCard).then(updatedCard => {
+        // onUpdateCardState(updatedCard)
+      })
+    }
+    toggleShowDatePicker()
+  }
   return (
     <Modal
       show={show}
-      onHide={() => onAction('close')}
+      onHide={() => toggleShowDatePicker('close')}
       backdrop="static"
       className="datetimepicker-modal"
       style={{ left: '70%', width: '30%', height: '100%' }}
@@ -42,18 +56,34 @@ function DateTimePicker(props) {
         <div>
           Start
           <div className='form-picker'>
-            <Form.Control type="date" />
-            <Form.Control type="time" />
+            <Form.Control type="date"
+              value={startTime[0]}
+              format="dd/MM/yyyy"
+              onChange={(e) => {
+                setStartTime([e.target.value, startTime[1]])
+              }} />
+            <Form.Control type="time"
+              value={startTime[1]} placeholder="hrs:mins"
+              pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$"
+              format=""
+              onChange={(e) => {
+                setStartTime([startTime[0], e.target.value])
+              }} />
           </div>
         </div>
         <div>
           End
           <div className='form-picker'>
-            <Form.Control type="date" value={startDate} format="dd/MM/yyyy" onChange={(e) => setStartDate(e.target.value)} />
-            <Form.Control type="time" value={startTime} placeholder="hrs:mins" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$" format="" onChange={(e) => {
-              console.log(e.target.value)
-              setStartTime(e.target.value)
-            }} />
+            <Form.Control type="date" value={endTime[0]} format="dd/MM/yyyy"
+              onChange={(e) => {
+                setEndTime([e.target.value, endTime[1]])
+              }} />
+            <Form.Control type="time" value={endTime[1]} placeholder="hrs:mins"
+              pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$"
+              format=""
+              onChange={(e) => {
+                setEndTime([endTime[0], e.target.value])
+              }} />
           </div>
         </div>
         <div>
@@ -73,10 +103,10 @@ function DateTimePicker(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => onAction(MODAL_ACTION_CLOSE)}>
+        <Button variant="secondary" onClick={() => toggleShowDatePicker()}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => onAction(MODAL_ACTION_CONFIRM)}>
+        <Button variant="primary" onClick={() => handleOnChangeDateTime()}>
           Save
         </Button>
       </Modal.Footer>
