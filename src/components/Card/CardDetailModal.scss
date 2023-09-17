@@ -1,7 +1,6 @@
 @import '_setting.scss';
 
 .modal-card-detail {
-  height: max-content;
   .title-card-detail {
     .nuandev-contenteditable {
       background-color: inherit;
@@ -33,6 +32,19 @@
           margin-top: 20px;
         }
       }
+      
+      .due-date {
+        display: flex;
+        .form-check-input {
+          border: 2px solid #00ff51;
+        }
+        .due-date-string {
+          margin-left: 20px;
+          height: max-content;
+          width: max-content;
+          background-color: beige;
+        }
+      }
 
       .nuandev-contenteditable {
         background-color: inherit;
@@ -44,6 +56,35 @@
           background-color: #fff;
         }
       }
+
+      .attachment-file {
+        background: rgba(0, 0, 0, 0.115);
+        border: none;
+        height: 58px;
+        min-width: 112px;
+        border-radius: 2px;
+        position: relative;
+
+        .delete-icon {
+          // background-color: rgba(41, 41, 41, 0.63);
+          border-radius: 100%;
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          padding: 0 10px;
+          font-size: 20px;
+          color: #000;
+          visibility: hidden;
+        }
+      }
+
+      .attachment-file:hover {
+        background: rgba(0, 0, 0, 0.3);
+        .delete-icon {
+          visibility: visible;
+        }
+      }
+    
     }
 
     .nav-card-detail {

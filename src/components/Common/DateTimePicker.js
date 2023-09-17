@@ -5,7 +5,7 @@ import { getDateTime } from 'utillities/sort'
 import './DateTimePicker.scss'
 
 function DateTimePicker(props) {
-  const { show, toggleShowDatePicker, card } = props
+  const { show, toggleShowDatePicker, card, onUpdateCardState } = props
   const [startTime, setStartTime] = useState([])
   const [endTime, setEndTime] = useState([])
   useEffect(() => {
@@ -36,7 +36,7 @@ function DateTimePicker(props) {
         endAt: timestampEnd
       }
       updateCard(newCard._id, newCard).then(updatedCard => {
-        // onUpdateCardState(updatedCard)
+        onUpdateCardState(updatedCard)
       })
     }
     toggleShowDatePicker()

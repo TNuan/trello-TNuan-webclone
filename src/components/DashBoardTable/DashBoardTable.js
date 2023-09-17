@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Container as BootstrapContainer, Table } from 'react-bootstrap'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './DashBoardTable.scss'
 
 import { getAllCardWorkpace } from 'actions/ApiCall'
@@ -11,11 +14,23 @@ import {
 function DashBoardTable(props) {
   const { currentUser, currentWorkspace } = props
   const [cardItems, setCardItems] = useState([])
+  const localizer = momentLocalizer(moment)
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
     if (currentWorkspace.boardOrder && currentUser) {
       getAllCardWorkpace({ boardOrder: currentWorkspace.boardOrder }).then((cardItems) => {
         setCardItems(cardItems)
+        const eventsData = cardItems.reduce((accumulator, cardItem) => {
+          let eventData = {
+            start: moment(cardItem.startAt),
+            end: moment(cardItem.endAt),
+            title: cardItem.title
+          }
+          accumulator.push(eventData)
+          return accumulator
+        }, [])
+        setEvents(eventsData)
       })
     }
   }, [currentUser, currentWorkspace])
@@ -56,6 +71,16 @@ function DashBoardTable(props) {
           </tbody>
         </Table>
       </BootstrapContainer>
+
+      <div className="dashboard-calendar">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 500 }}
+        />
+      </div>
     </div>
   )
 }

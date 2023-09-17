@@ -99,7 +99,6 @@ function Column(props) {
       title: newCardTitle.trim(),
       labelOrder: newCardLabels
     }
-    console.log(newCardToAdd)
 
     //Call APIs
     createNewCard(newCardToAdd).then(card => {
@@ -112,6 +111,26 @@ function Column(props) {
       setNewCardLabels([])
       toggleOpenNewCardForm()
     })
+  }
+
+  const onUpdateCardState = (newCardToUpdate) => {
+    const CardIdToUpdate = newCardToUpdate._id
+
+    let newCards = [...cards]
+    const CardIndexToUpdate = newCards.findIndex(item => item._id === CardIdToUpdate)
+    if (newCardToUpdate._destroy) {
+      // remove Card
+      newCards.splice(CardIndexToUpdate, 1)
+    } else {
+      //update Card info
+      newCards.splice(CardIndexToUpdate, 1, newCardToUpdate)
+    }
+
+    let newColumn = { ...column }
+    newColumn.cardOrder = newCards.map(col => col._id)
+    newColumn.cards = newCards
+
+    onUpdateColumnState(newColumn)
   }
 
   const addLabel = (event) => {
@@ -185,7 +204,7 @@ function Column(props) {
 
           {cards.map((card, index) => (
             <Draggable key={index}>
-              <Card card={card} />
+              <Card card={card} onUpdateCardState={onUpdateCardState}/>
             </Draggable>
           ))}
         </Container>
