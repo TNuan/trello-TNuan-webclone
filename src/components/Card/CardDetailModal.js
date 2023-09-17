@@ -1,4 +1,4 @@
-import { Modal, Button, Form, FormCheck } from 'react-bootstrap'
+import { Modal, Button, Form, FormCheck, Row, Col } from 'react-bootstrap'
 import { CDBBadge } from 'cdbreact'
 import HTMLReactParser from 'html-react-parser'
 import { React, useState } from 'react'
@@ -6,13 +6,12 @@ import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
 import DateTimePicker from 'components/Common/DateTimePicker'
 import AttachmentModal from 'components/Common/AttachmentModal'
-import { getDateTime } from 'utillities/sort'
 import { updateCard } from 'actions/ApiCall'
 import './CardDetailModal.scss'
 
 
 function CardDetailModal(props) {
-  const { card, show, onAction } = props
+  const { card, show, onAction, onUpdateCardState } = props
   const [cardTitle, setCardTitle] = useState(card.title)
   // const newCardTextareaRef = useRef(null)
   const [isShowDateTimePicker, setIsShowDateTimePicker] = useState(false)
@@ -34,7 +33,7 @@ function CardDetailModal(props) {
 
       //Call APIs update Card
       updateCard(newCard._id, newCard).then(updatedCard => {
-        // onUpdateCardState(updatedCard)
+        onUpdateCardState(updatedCard)
       })
     }
   }
@@ -48,7 +47,7 @@ function CardDetailModal(props) {
 
       //Call APIs update Card
       updateCard(newCard._id, newCard).then(updatedCard => {
-        // onUpdateCardState(updatedCard)
+        onUpdateCardState(updatedCard)
       })
     }
   }
@@ -110,64 +109,77 @@ function CardDetailModal(props) {
               </Button>
             </div>
           </div>
-          <div>
-            <h5>
-              Due date
-            </h5>
+          {card.endAt &&
             <div>
-              <FormCheck></FormCheck>
-              {card.endAt &&
-                <div>
+              <h5>
+                Due date
+              </h5>
+              <div className='due-date'>
+                <FormCheck></FormCheck>
+                <div className='due-date-string'>
                   {
-                    getDateTime(new Date(card.endAt)).join(' at ')
+                    (new Date(card.endAt)).toUTCString()
                   }
                 </div>
-              }
+                <div className='dua-date-badge'>
+                  
+                </div>
+              </div>
             </div>
-          </div>
+          }
 
           <div>
             <h4>
               <i className="fa fa-paperclip" aria-hidden="true"></i>
               Attach
-              {card.fileAttachment &&
-                <button className='attachment-file'>
-                  
-                </button>
-              }
             </h4>
+            {card.fileAttachment &&
+              <Button className='attachment-file'>
+                <span className="delete-icon" >&times;</span>
+                {card.fileAttachment.filename}
+              </Button>
+            }
           </div>
 
-          <div>
-            <h4>
-              <i className="fa fa-align-left" aria-hidden="true"></i>
-              Description
-              <div className="card-description">
-                <Form.Control
-                  size="sm"
-                  as="textarea"
-                  rows="3"
-                  className="nuandev-contenteditable"
-                  value={cardDescription}
-                  onChange={handleCardDescriptionChange}
-                  onBlur={handleCardDescriptionBlur}
-                  onKeyDown={saveContentAfterPressEnter}
-                  onClick={selectAllInLineText}
-                  onMouseDown={e => e.preventDefault()}
-                // spellCheck="false"
-                />
-              </div>
-            </h4>
+          {
+            card.description &&
+            <div>
+              <h4>
+                <i className="fa fa-align-left" aria-hidden="true"></i>
+                Description
+                <div className="card-description">
+                  <Form.Control
+                    size="sm"
+                    as="textarea"
+                    rows="3"
+                    className="nuandev-contenteditable"
+                    value={cardDescription}
+                    onChange={handleCardDescriptionChange}
+                    onBlur={handleCardDescriptionBlur}
+                    onKeyDown={saveContentAfterPressEnter}
+                    onClick={selectAllInLineText}
+                    onMouseDown={e => e.preventDefault()}
+                  // spellCheck="false"
+                  />
+                </div>
+              </h4>
+            </div>
+          }
 
-          </div>
           <div>
             <h4>
               <i className="fa fa-list-ul" aria-hidden="true"></i>
               Activity
             </h4>
             <div>
-              <img src="img_girl.jpg" alt="avatar" width="500" height="600" />
-              <input type="text" placeholder="Write a comment" />
+              <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
+                <Form.Label column sm="2">
+                  <img src="img_girl.jpg" alt="avatar" width="500" height="600" />
+                </Form.Label>
+                <Col sm="10">
+                  <Form.Control type="text" placeholder="Write a comment..." />
+                </Col>
+              </Form.Group>
             </div>
           </div>
         </div>
@@ -190,12 +202,12 @@ function CardDetailModal(props) {
             <i className="fa fa-clock-o" aria-hidden="true"></i>
             Dates
           </Button>
-          <DateTimePicker show={isShowDateTimePicker} toggleShowDatePicker={toggleShowDatePicker} card={card} />
+          <DateTimePicker show={isShowDateTimePicker} toggleShowDatePicker={toggleShowDatePicker} card={card} onUpdateCardState={onUpdateCardState} />
           <Button onClick={() => toggleShowAttachmentModal()}>
             <i className="fa fa-paperclip" aria-hidden="true"></i>
             Attachment
           </Button>
-          <AttachmentModal show={isShowAttachmentModal} toggleShowAttachmentModal={toggleShowAttachmentModal} card={card} />
+          <AttachmentModal show={isShowAttachmentModal} toggleShowAttachmentModal={toggleShowAttachmentModal} card={card} onUpdateCardState={onUpdateCardState} />
           <Button>
             <i className="fa fa-picture-o" aria-hidden="true"></i>
             Cover

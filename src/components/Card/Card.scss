@@ -17,6 +17,20 @@ $card-border-radius: 4px;
     border-top-right-radius: $card-border-radius;
   }
 
+  .card-item-icon {
+    display: flex;
+    align-items: center;
+    i {
+      margin-right: 10px;
+    }
+    .card-item-due {
+      border: none;
+      border-radius: 10px;
+      background-color: greenyellow;
+      margin-right: 10px;
+    }
+  }
+
   .card-labels {
     width: 100%;
     display: flex;

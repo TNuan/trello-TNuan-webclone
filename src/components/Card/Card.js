@@ -53,11 +53,28 @@ function Card(props) {
             )}
           </div>
         }
+        <div className='card-item-icon'>
+          {card.description &&
+            <i className="fa fa-align-left" aria-hidden="true"></i>
+          }
+          {card.endAt &&
+            <button className="card-item-due">
+              <i className="fa fa-clock-o" aria-hidden="true"></i>
+              {(new Date(card.endAt)).toISOString().split('T')[0]}
+            </button>
+          }
+          {card.fileAttachment &&
+            <i className="fa fa-paperclip" aria-hidden="true">1</i>
+          }
+        </div>
+
+
       </div>
       <CardDetailModal
         card={card}
         show={showCardDetailModal}
         onAction={onConfirmModalAction}
+        onUpdateCardState={onUpdateCardState}
       />
     </div>
 

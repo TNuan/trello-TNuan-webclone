@@ -7,7 +7,7 @@ import FileViewer from 'react-file-viewer'
 import './AttachmentModal.scss'
 
 function AttachmentModal(props) {
-  const { show, toggleShowAttachmentModal, card } = props
+  const { show, toggleShowAttachmentModal, card, onUpdateCardState } = props
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState('')
   const [selectedFile, setSelectedFile] = useState()
@@ -52,7 +52,7 @@ function AttachmentModal(props) {
         }
       }
       updateCard(newCard._id, newCard).then(updatedCard => {
-        // onUpdateCardState(updatedCard)
+        onUpdateCardState(updatedCard)
       })
       setFileInputState('')
       setPreviewSource('')
