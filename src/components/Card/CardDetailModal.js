@@ -1,10 +1,11 @@
 import { Modal, Button, Form, FormCheck } from 'react-bootstrap'
 import { CDBBadge } from 'cdbreact'
 import HTMLReactParser from 'html-react-parser'
-import { React, useState, useRef } from 'react'
+import { React, useState } from 'react'
 import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
 import DateTimePicker from 'components/Common/DateTimePicker'
+import AttachmentModal from 'components/Common/AttachmentModal'
 import { getDateTime } from 'utillities/sort'
 import { updateCard } from 'actions/ApiCall'
 import './CardDetailModal.scss'
@@ -16,6 +17,9 @@ function CardDetailModal(props) {
   // const newCardTextareaRef = useRef(null)
   const [isShowDateTimePicker, setIsShowDateTimePicker] = useState(false)
   const toggleShowDatePicker = () => setIsShowDateTimePicker(!isShowDateTimePicker)
+
+  const [isShowAttachmentModal, setIsShowAttachmentModal] = useState(false)
+  const toggleShowAttachmentModal = () => setIsShowAttachmentModal(!isShowAttachmentModal)
 
   const [cardDescription, setCardDescription] = useState(card.description)
   const handleCardDescriptionChange = (e) => setCardDescription(e.target.value)
@@ -121,6 +125,19 @@ function CardDetailModal(props) {
               }
             </div>
           </div>
+
+          <div>
+            <h4>
+              <i className="fa fa-paperclip" aria-hidden="true"></i>
+              Attach
+              {card.fileAttachment &&
+                <button className='attachment-file'>
+                  
+                </button>
+              }
+            </h4>
+          </div>
+
           <div>
             <h4>
               <i className="fa fa-align-left" aria-hidden="true"></i>
@@ -174,10 +191,11 @@ function CardDetailModal(props) {
             Dates
           </Button>
           <DateTimePicker show={isShowDateTimePicker} toggleShowDatePicker={toggleShowDatePicker} card={card} />
-          <Button>
+          <Button onClick={() => toggleShowAttachmentModal()}>
             <i className="fa fa-paperclip" aria-hidden="true"></i>
             Attachment
           </Button>
+          <AttachmentModal show={isShowAttachmentModal} toggleShowAttachmentModal={toggleShowAttachmentModal} card={card} />
           <Button>
             <i className="fa fa-picture-o" aria-hidden="true"></i>
             Cover

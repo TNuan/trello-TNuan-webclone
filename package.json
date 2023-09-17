@@ -21,6 +21,7 @@
     "react-bootstrap-sidebar-menu": "^2.0.3",
     "react-dom": "^18.1.0",
     "react-facebook-login": "^4.1.1",
+    "react-file-viewer": "^1.2.1",
     "react-google-login": "^5.2.2",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.11.2",
