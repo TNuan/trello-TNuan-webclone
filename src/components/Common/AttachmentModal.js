@@ -3,7 +3,6 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import HTMLReactParser from 'html-react-parser'
 import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { updateCard } from 'actions/ApiCall'
-import FileViewer from 'react-file-viewer'
 import './AttachmentModal.scss'
 
 function AttachmentModal(props) {
