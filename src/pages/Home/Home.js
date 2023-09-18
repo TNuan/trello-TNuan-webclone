@@ -12,6 +12,7 @@ import { getFullWorkspace, getFullUser } from 'actions/ApiCall'
 // import { getFullUser } from 'actions/ApiCall'
 import DashBoardMembers from 'components/DashBoardMembers/DashBoardMembers'
 import DashBoardAnalytics from 'components/DashBoardAnalytics/DashBoardAnalytics'
+import DashBoardCalendar from 'components/DashBoardCalendar/DashBoardCalendar'
 
 function Home() {
   const [currentUser, setCurrentUser] = useState({})
@@ -95,6 +96,7 @@ function Home() {
               <Route path='/' element={<DashBoardContent boards={boards} />} />
               <Route path='/tables' element={<DashBoardTable currentUser={currentUser} currentWorkspace={currentWorkspace}/>} />
               <Route path='/members' element={<DashBoardMembers currentUser={currentUser} members={members} />} />
+              <Route path='/calendar' element={<DashBoardCalendar currentUser={currentUser} currentWorkspace={currentWorkspace}/>} />
               <Route path='/analytics' element={<DashBoardAnalytics currentUser={currentUser} currentWorkspace={currentWorkspace}/>} />
             </Routes>
           </div>
