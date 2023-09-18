@@ -1,17 +1,50 @@
 @import '_setting.scss';
 
 .modal-card-detail {
-  .title-card-detail {
-    .nuandev-contenteditable {
-      background-color: inherit;
-      border: none;
-      cursor: pointer;
-      font-size: inherit;
-      font-weight: inherit;
-      &:focus {
-        background-color: #fff;
+  .header-card-detail {
+    display: flex;
+    flex-direction: column;
+
+    .btn-close {
+      order: -1;
+      margin-bottom: 5px;
+    }
+
+    .cover-card-detail {
+      width: 100%;
+      height: 200px;
+      position: relative;
+    }
+
+    .cover-card-detail::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    }
+    .modal-title {
+      width: 100%;
+      display: flex;
+      justify-content: start;
+
+      .title-card-detail {
+        .nuandev-contenteditable {
+          background-color: inherit;
+          border: none;
+          cursor: pointer;
+          font-size: inherit;
+          font-weight: inherit;
+  
+          &:focus {
+            background-color: #fff;
+          }
+        }
       }
     }
+    
   }
 
   .content-card-detail {
@@ -20,24 +53,28 @@
 
     .body-card-detail {
       width: 60%;
+
       .label-and-noti {
         display: flex;
         // width: 100%;
         // align-items: center;
         justify-content: space-between;
       }
+
       h4 {
         i {
           margin-right: 20px;
           margin-top: 20px;
         }
       }
-      
+
       .due-date {
         display: flex;
+
         .form-check-input {
           border: 2px solid #00ff51;
         }
+
         .due-date-string {
           margin-left: 20px;
           height: max-content;
@@ -51,10 +88,16 @@
         border: none;
         cursor: pointer;
         font-size: 16px;
+
         // font-weight: inherit;
         &:focus {
           background-color: #fff;
         }
+      }
+
+      .textarea-enter-description {
+        min-height: 54px;
+        max-height: 162px;
       }
 
       .attachment-file {
@@ -80,11 +123,12 @@
 
       .attachment-file:hover {
         background: rgba(0, 0, 0, 0.3);
+
         .delete-icon {
           visibility: visible;
         }
       }
-    
+
     }
 
     .nav-card-detail {
@@ -97,6 +141,7 @@
         justify-content: start;
         align-items: center;
         margin-top: 8px;
+
         i {
           margin-right: 8px;
         }
@@ -110,6 +155,7 @@
     // height: 30px;
     align-items: center;
   }
+
   .card-labels {
     width: 100%;
     display: flex;
@@ -120,7 +166,7 @@
       margin: 0 1px;
       flex: auto;
       max-width: fit-content;
-      border-radius: 6px;    
+      border-radius: 6px;
     }
 
     .primary-label {

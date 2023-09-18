@@ -6,6 +6,7 @@ import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utillities/constants'
 import { saveContentAfterPressEnter, selectAllInLineText } from 'utillities/contentEditable'
 import DateTimePicker from 'components/Common/DateTimePicker'
 import AttachmentModal from 'components/Common/AttachmentModal'
+import AddCoverModal from 'components/Common/AddCoverModal'
 import { updateCard } from 'actions/ApiCall'
 import './CardDetailModal.scss'
 
@@ -19,6 +20,9 @@ function CardDetailModal(props) {
 
   const [isShowAttachmentModal, setIsShowAttachmentModal] = useState(false)
   const toggleShowAttachmentModal = () => setIsShowAttachmentModal(!isShowAttachmentModal)
+
+  const [isShowAddCoverModal, setIsShowAddCoverModal] = useState(false)
+  const toggleShowAddCoverModal = () => setIsShowAddCoverModal(!isShowAddCoverModal)
 
   const [cardDescription, setCardDescription] = useState(card.description)
   const handleCardDescriptionChange = (e) => setCardDescription(e.target.value)
@@ -59,7 +63,11 @@ function CardDetailModal(props) {
       backdrop="static"
       className='modal-card-detail modal-lg'
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className="header-card-detail">
+        {
+          card.cover &&
+          <img className="cover-card-detail" src={card.cover} />
+        }
         <Modal.Title className="h2">
           <div className="title-card-detail">
             <Form.Control
@@ -122,7 +130,7 @@ function CardDetailModal(props) {
                   }
                 </div>
                 <div className='dua-date-badge'>
-                  
+
                 </div>
               </div>
             </div>
@@ -141,18 +149,18 @@ function CardDetailModal(props) {
             }
           </div>
 
-          {
-            card.description &&
-            <div>
-              <h4>
-                <i className="fa fa-align-left" aria-hidden="true"></i>
-                Description
+          <div>
+            <h4>
+              <i className="fa fa-align-left" aria-hidden="true"></i>
+              Description
+              {
+                card.description &&
                 <div className="card-description">
                   <Form.Control
                     size="sm"
                     as="textarea"
                     rows="3"
-                    className="nuandev-contenteditable"
+                    className="nuandev-contenteditable textarea-enter-description"
                     value={cardDescription}
                     onChange={handleCardDescriptionChange}
                     onBlur={handleCardDescriptionBlur}
@@ -162,9 +170,28 @@ function CardDetailModal(props) {
                   // spellCheck="false"
                   />
                 </div>
-              </h4>
-            </div>
-          }
+              }
+              {
+                !card.description &&
+                <div className="card-description">
+                  <Form.Control
+                    size="sm"
+                    as="textarea"
+                    // rows="1"
+                    placeholder="Write something..."
+                    className="nuandev-contenteditable textarea-enter-description"
+                    value={cardDescription}
+                    onChange={handleCardDescriptionChange}
+                    onBlur={handleCardDescriptionBlur}
+                    onKeyDown={saveContentAfterPressEnter}
+                    onClick={selectAllInLineText}
+                    onMouseDown={e => e.preventDefault()}
+                  // spellCheck="false"
+                  />
+                </div>
+              }
+            </h4>
+          </div>
 
           <div>
             <h4>
@@ -208,10 +235,11 @@ function CardDetailModal(props) {
             Attachment
           </Button>
           <AttachmentModal show={isShowAttachmentModal} toggleShowAttachmentModal={toggleShowAttachmentModal} card={card} onUpdateCardState={onUpdateCardState} />
-          <Button>
+          <Button onClick={() => toggleShowAddCoverModal()}>
             <i className="fa fa-picture-o" aria-hidden="true"></i>
             Cover
           </Button>
+          <AddCoverModal show={isShowAddCoverModal} toggleShowAddCoverModal={toggleShowAddCoverModal} card={card} onUpdateCardState={onUpdateCardState}></AddCoverModal>
         </div>
       </Modal.Body>
       <Modal.Footer>
