@@ -21,16 +21,6 @@ function DashBoardTable(props) {
     if (currentWorkspace.boardOrder && currentUser) {
       getAllCardWorkpace({ boardOrder: currentWorkspace.boardOrder }).then((cardItems) => {
         setCardItems(cardItems)
-        const eventsData = cardItems.reduce((accumulator, cardItem) => {
-          let eventData = {
-            start: moment(cardItem.startAt),
-            end: moment(cardItem.endAt),
-            title: cardItem.title
-          }
-          accumulator.push(eventData)
-          return accumulator
-        }, [])
-        setEvents(eventsData)
       })
     }
   }, [currentUser, currentWorkspace])
@@ -72,15 +62,6 @@ function DashBoardTable(props) {
         </Table>
       </BootstrapContainer>
 
-      <div className="dashboard-calendar">
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-        />
-      </div>
     </div>
   )
 }

@@ -107,6 +107,13 @@ function DashBoardBar(props) {
                 }
               >Members</CDBSidebarMenuItem>
             </NavLink>
+
+            <NavLink exact="true" to="/calendar">
+              <CDBSidebarMenuItem icon="calendar">
+                Calendar
+              </CDBSidebarMenuItem>
+            </NavLink>
+
             <NavLink exact="true" to="/analytics">
               <CDBSidebarMenuItem icon="chart-line">
                 Analytics
